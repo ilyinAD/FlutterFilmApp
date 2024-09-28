@@ -1,0 +1,24 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ApiFilmCard _$ApiFilmCardFromJson(Map<String, dynamic> json) {
+  $checkKeys(
+    json,
+    requiredKeys: const ['name', 'rating'],
+  );
+  return ApiFilmCard(
+    picture: json['image medium'] as String? ?? null,
+    name: json['name'] as String,
+    rating: (json['rating'] as num).toInt(),
+    description: json['description'] as String? ?? null,
+  );
+}
+
+Map<String, dynamic> _$ApiFilmCardToJson(ApiFilmCard instance) =>
+    <String, dynamic>{
+      'image medium': instance.picture,
+      'name': instance.name,
+      'rating': instance.rating,
+      'description': instance.description,
+    };
