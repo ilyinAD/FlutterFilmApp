@@ -1,5 +1,5 @@
 import 'package:chck_smth_in_flutter/domain/home_bloc/home_bloc.dart';
-import 'package:chck_smth_in_flutter/presentation/widgets/film_info.dart';
+import 'package:chck_smth_in_flutter/presentation/widgets/film_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
 
 class ListOfFilms extends StatelessWidget {
   final TextEditingController textEditingController;
-  ListOfFilms({super.key, required this.textEditingController});
+  const ListOfFilms({super.key, required this.textEditingController});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class ListOfFilms extends StatelessWidget {
           builder: (context, state) {
             if (state.isLoading == true) {
               return const Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Center(child: CircularProgressIndicator()),
               );
             } else if (state.isGeted == false) {
@@ -110,7 +110,7 @@ class ListOfFilms extends StatelessWidget {
                     state.filmList != null ? state.filmList!.results.length : 0,
                 itemBuilder: (context, index) {
                   if (state.filmList != null) {
-                    return FilmInfo(
+                    return FilmButton(
                       result: state.filmList!.results[index],
                       index: index,
                     );

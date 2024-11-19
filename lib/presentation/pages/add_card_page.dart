@@ -1,18 +1,21 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../constants/constants.dart';
 
 class FilmCard extends StatefulWidget {
   double? rating;
   String? picture;
   String? name;
   String? description;
-  FilmCard({super.key});
-  FilmCard.fromFilmCardModel({FilmCardModel? result})
+  final FilmCardModel? film;
+  //FilmCard({super.key});
+  FilmCard.fromFilmCardModel({super.key, FilmCardModel? result})
       : rating = result?.rating,
         picture = result?.picture,
         name = result?.name,
-        description = result?.description;
+        description = result?.description,
+        film = result;
 
   @override
   State<FilmCard> createState() => _FilmCardState();
@@ -26,6 +29,14 @@ class _FilmCardState extends State<FilmCard> {
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
+  final List<String> statusOptions = [
+    'Просмотрено',
+    'В процессе просмотра',
+    'Хочу посмотреть',
+  ];
+
+  String? selectedStatus;
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +45,7 @@ class _FilmCardState extends State<FilmCard> {
     picture = widget.picture;
     description = widget.description;
     nameEditingController.text = name != null ? name! : "";
-    descriptionEditingController.text = description != null ? description! : "";
+    selectedStatus = statusOptions[0];
   }
 
   @override
@@ -53,16 +64,28 @@ class _FilmCardState extends State<FilmCard> {
                   child: Align(
                     alignment: Alignment.topLeft,*/
                 child: picture != null
-                    ? Image.network(
-                        fit: BoxFit.contain,
-                        picture!,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return CircularProgressIndicator();
-                        },
+                    ? Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Image.network(
+                              widget.picture!,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ),
                       )
                     : Image.asset('assets/images/sticker.jpg'),
               ),
@@ -74,11 +97,37 @@ class _FilmCardState extends State<FilmCard> {
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          labelText: 'Статус фильма',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        value: selectedStatus,
+                        items: statusOptions.map((String status) {
+                          return DropdownMenuItem<String>(
+                            value: status,
+                            child: Text(status),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedStatus = newValue;
+                            widget.film?.status = 1;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                       child: TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Name",
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                         controller: nameEditingController,
                         //initialValue: name != null ? name! : "",
@@ -87,9 +136,11 @@ class _FilmCardState extends State<FilmCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                       child: TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Rating",
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                         controller: ratingEditingController,
                         //initialValue: name != null ? name! : "",
@@ -102,19 +153,26 @@ class _FilmCardState extends State<FilmCard> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 8, 0, 4),
-            child: SizedBox(
-              height: 200,
-              child: TextField(
-                decoration: const InputDecoration(
-                  labelText: "Description",
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 25.0,
-                    horizontal: 10.0,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: 200,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Description",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 25.0,
+                      horizontal: 10.0,
+                    ),
                   ),
+                  controller: descriptionEditingController,
+                  maxLines: null,
+
+                  //initialValue: name != null ? name! : "",
                 ),
-                controller: descriptionEditingController,
-                //initialValue: name != null ? name! : "",
               ),
             ),
           ),

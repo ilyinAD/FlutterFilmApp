@@ -1,11 +1,15 @@
+import '../../constants/constants.dart';
+
 class FilmCardModel {
   final String? picture;
   final String name;
   final double? rating;
   final String? description;
+  int status;
   FilmCardModel(
-      {this.picture = null,
+      {this.picture,
       required this.name,
-      this.description = null,
-      required this.rating});
+      this.description,
+      required this.rating,
+      this.status = untracked});
 }
