@@ -97,14 +97,18 @@ class _FilmInfoState extends State<FilmInfo>
                     children: [
                       AnimatedSize(
                         duration: const Duration(milliseconds: 200),
-                        child: Text(
-                          _isExpanded
-                              ? widget.description!
-                              : '${widget.description!.substring(0, 100)}...',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                            height: 1.5,
+                        child: Expanded(
+                          child: SingleChildScrollView(
+                            child: Text(
+                              _isExpanded
+                                  ? widget.description!
+                                  : '${widget.description!.substring(0, 100)}...',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black87,
+                                height: 1.5,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -117,6 +121,7 @@ class _FilmInfoState extends State<FilmInfo>
                         child: Text(
                           _isExpanded ? 'Свернуть' : 'Подробнее',
                           style: const TextStyle(color: Colors.blue),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -141,12 +146,12 @@ class _FilmInfoState extends State<FilmInfo>
                 },
                 elevation: 2.0,
                 fillColor: Colors.white,
-                child: Icon(
+                padding: EdgeInsets.all(15.0),
+                shape: CircleBorder(),
+                child: const Icon(
                   Icons.add,
                   size: 35.0,
                 ),
-                padding: EdgeInsets.all(15.0),
-                shape: CircleBorder(),
               ),
             )
           ],
