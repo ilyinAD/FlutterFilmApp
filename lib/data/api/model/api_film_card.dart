@@ -5,6 +5,7 @@ class ApiFilmCard {
   final String name;
   final double? rating;
   final String? description;
+  final int id;
   // ApiFilmCard(
   //     {this.picture = null,
   //     required this.name,
@@ -14,7 +15,8 @@ class ApiFilmCard {
       {required this.name,
       required this.rating,
       required this.picture,
-      required this.description});
+      required this.description,
+      required this.id});
 
   ApiFilmCard.fromJson(Map<String, dynamic> json)
       : name = json["show"]["name"],
@@ -24,7 +26,8 @@ class ApiFilmCard {
         picture = json["show"]["image"] != null
             ? json["show"]["image"]["medium"]
             : null,
-        description = json["show"]["summary"];
+        description = json["show"]["summary"],
+        id = json["show"]["id"];
 }
 
 // String getName(Map<String, dynamic> json) {

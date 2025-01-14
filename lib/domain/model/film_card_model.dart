@@ -6,10 +6,12 @@ class FilmCardModel {
   final double? rating;
   final String? description;
   int status;
+  int id;
   FilmCardModel(
       {this.picture,
       required this.name,
       this.description,
       required this.rating,
-      this.status = untracked});
+      this.status = untracked,
+      required this.id});
 }

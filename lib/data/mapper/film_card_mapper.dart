@@ -18,6 +18,7 @@ class FilmCardMapper {
         rating: film.rating,
         picture: film.picture,
         description: needDescription,
-        status: untracked);
+        status: untracked,
+        id: film.id);
   }
 }

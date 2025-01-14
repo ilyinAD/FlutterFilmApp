@@ -1,5 +1,7 @@
 import 'package:chck_smth_in_flutter/domain/home_bloc/home_bloc.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:chck_smth_in_flutter/presentation/widgets/film_button.dart';
+import 'package:chck_smth_in_flutter/presentation/widgets/film_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,11 +14,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late TextEditingController textEditingController;
+  int _selectedIndex = 0;
+  late List<Widget> _pages;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   final HomeBloc homeBloc = HomeBloc();
   @override
   void initState() {
     super.initState();
+    homeBloc.add(DataIsNotGeted());
     textEditingController = TextEditingController();
+    _pages = [
+      ListOfFilms(textEditingController: textEditingController),
+      const TrackedListOfFilms(),
+    ];
   }
 
   @override
@@ -27,7 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    homeBloc.add(DataIsNotGeted());
+    //homeBloc.add(DataIsNotGeted());
 
     return BlocProvider<HomeBloc>(
       create: (context) => homeBloc,
@@ -51,12 +67,29 @@ class _HomePageState extends State<HomePage> {
               //           textEditingController: textEditingController,
               //         ),
               // );
-              return Align(
-                child: ListOfFilms(
-                  textEditingController: textEditingController,
-                ),
-              );
+
+              return _pages[_selectedIndex];
+
+              // return Align(
+              //   child: ListOfFilms(
+              //     textEditingController: textEditingController,
+              //   ),
+              // );
             }),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Первая страница',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Вторая страница',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -77,6 +110,33 @@ class _HomePageState extends State<HomePage> {
 //     );
 //   }
 // }
+
+class TrackedListOfFilms extends StatefulWidget {
+  const TrackedListOfFilms({super.key});
+
+  @override
+  State<TrackedListOfFilms> createState() => _TrackedListOfFilmsState();
+}
+
+class _TrackedListOfFilmsState extends State<TrackedListOfFilms> {
+  @override
+  Widget build(BuildContext context) {
+    //final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
+    return Scaffold(
+      body: ListView(
+        children: TrackedFilmRepositoryModule.trackedFilmMapRepository()
+            .films
+            .entries
+            .map((entry) {
+          print("OK");
+          print(entry.value.name);
+          print(entry.value.id.toString());
+          return FilmButton(result: entry.value);
+        }).toList(),
+      ),
+    );
+  }
+}
 
 class ListOfFilms extends StatelessWidget {
   final TextEditingController textEditingController;

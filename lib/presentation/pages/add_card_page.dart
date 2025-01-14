@@ -1,21 +1,24 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../constants/constants.dart';
 
 class FilmCard extends StatefulWidget {
-  double? rating;
-  String? picture;
-  String? name;
-  String? description;
-  final FilmCardModel? film;
+  final double? rating;
+  final String? picture;
+  final String? name;
+  final String? description;
+  final FilmCardModel film;
+  final int id;
   //FilmCard({super.key});
-  FilmCard.fromFilmCardModel({super.key, FilmCardModel? result})
-      : rating = result?.rating,
-        picture = result?.picture,
-        name = result?.name,
-        description = result?.description,
-        film = result;
+  FilmCard.fromFilmCardModel({super.key, required FilmCardModel result})
+      : rating = result.rating,
+        picture = result.picture,
+        name = result.name,
+        description = result.description,
+        film = result,
+        id = result.id;
 
   @override
   State<FilmCard> createState() => _FilmCardState();
@@ -35,6 +38,12 @@ class _FilmCardState extends State<FilmCard> {
     'Хочу посмотреть',
   ];
 
+  final Map<String, int> statusMap = {
+    "Просмотрено": 0,
+    "В процессе просмотра": 1,
+    "Хочу посмотреть": 2
+  };
+
   String? selectedStatus;
 
   @override
@@ -45,7 +54,14 @@ class _FilmCardState extends State<FilmCard> {
     picture = widget.picture;
     description = widget.description;
     nameEditingController.text = name != null ? name! : "";
-    selectedStatus = statusOptions[0];
+    if (widget.film.status != untracked) {
+      descriptionEditingController.text = description ?? "";
+      ratingEditingController.text = rating != null ? rating!.toString() : "";
+    }
+
+    selectedStatus = widget.film.status == untracked
+        ? statusOptions[0]
+        : statusOptions[widget.film.status];
   }
 
   @override
@@ -115,7 +131,6 @@ class _FilmCardState extends State<FilmCard> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedStatus = newValue;
-                            widget.film?.status = 1;
                           });
                         },
                       ),
@@ -179,7 +194,25 @@ class _FilmCardState extends State<FilmCard> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          if (nameEditingController.text == "" ||
+              ratingEditingController.text == "") {
+            return;
+          }
+
+          setState(() {
+            FilmCardModel film = FilmCardModel(
+                name: nameEditingController.text,
+                rating: double.parse(ratingEditingController.text),
+                id: widget.id,
+                description: descriptionEditingController.text,
+                status: statusMap[selectedStatus] ?? 0,
+                picture: picture);
+            TrackedFilmRepositoryModule.trackedFilmMapRepository()
+                .addFilm(film: film);
+            Navigator.pop(context, film);
+          });
+        },
         child: Text("Save"),
       ),
     );
