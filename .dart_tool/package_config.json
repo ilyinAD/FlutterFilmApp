@@ -3,21 +3,27 @@
   "packages": [
     {
       "name": "_fe_analyzer_shared",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-67.0.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-72.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "_macros",
+      "rootUri": "file:///C:/Flutter/flutter_sdk/flutter/bin/cache/dart-sdk/pkg/_macros",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "analyzer",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-6.4.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-6.7.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
     },
     {
       "name": "args",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.5.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.6.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
     },
     {
       "name": "async",
@@ -69,9 +75,9 @@
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.3.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.3.2",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.5"
     },
     {
       "name": "built_collection",
@@ -81,7 +87,7 @@
     },
     {
       "name": "built_value",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/built_value-8.9.2",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/built_value-8.9.3",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -117,9 +123,9 @@
     },
     {
       "name": "code_builder",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/code_builder-4.10.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/code_builder-4.10.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.5"
     },
     {
       "name": "collection",
@@ -129,15 +135,15 @@
     },
     {
       "name": "convert",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/convert-3.1.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/convert-3.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "crypto",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.3",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.6",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "csslib",
@@ -153,7 +159,7 @@
     },
     {
       "name": "dart_style",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/dart_style-2.3.6",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/dart_style-2.3.7",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -165,9 +171,9 @@
     },
     {
       "name": "dio_web_adapter",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-1.0.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.3"
     },
     {
       "name": "fake_async",
@@ -183,15 +189,15 @@
     },
     {
       "name": "file",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "fixnum",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.1"
     },
     {
       "name": "flutter",
@@ -273,9 +279,9 @@
     },
     {
       "name": "http_multi_server",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/http_multi_server-3.2.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/http_multi_server-3.2.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.2"
     },
     {
       "name": "http_parser",
@@ -285,9 +291,9 @@
     },
     {
       "name": "io",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.4",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "js",
@@ -333,15 +339,21 @@
     },
     {
       "name": "logger",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/logger-2.4.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/logger-2.5.0",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "logging",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.2.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "macros",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/macros-0.1.2-main.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "matcher",
@@ -363,7 +375,7 @@
     },
     {
       "name": "mime",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.5",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.6",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -381,9 +393,9 @@
     },
     {
       "name": "package_config",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/package_config-2.1.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/package_config-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "path",
@@ -404,10 +416,34 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "path_provider_linux",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "path_provider_windows",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "petitparser",
       "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-5.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "platform",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "plugin_platform_interface",
@@ -429,21 +465,63 @@
     },
     {
       "name": "pub_semver",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/pub_semver-2.1.4",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/pub_semver-2.1.5",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.4"
     },
     {
       "name": "pubspec_parse",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/pubspec_parse-1.3.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/pubspec_parse-1.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "quiver",
       "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/quiver-3.2.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "shared_preferences",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "shared_preferences_web",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
     },
     {
       "name": "shelf",
@@ -453,9 +531,9 @@
     },
     {
       "name": "shelf_web_socket",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shelf_web_socket-2.0.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/shelf_web_socket-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
     },
     {
       "name": "sky_engine",
@@ -471,9 +549,9 @@
     },
     {
       "name": "source_helper",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/source_helper-1.3.4",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/source_helper-1.3.5",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "source_span",
@@ -495,9 +573,9 @@
     },
     {
       "name": "stream_transform",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/stream_transform-2.1.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/stream_transform-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.1"
     },
     {
       "name": "string_scanner",
@@ -519,9 +597,9 @@
     },
     {
       "name": "timing",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/timing-1.0.1",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/timing-1.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.4"
     },
     {
       "name": "tuple",
@@ -531,9 +609,9 @@
     },
     {
       "name": "typed_data",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.3.2",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.5"
     },
     {
       "name": "vector_math",
@@ -555,9 +633,9 @@
     },
     {
       "name": "video_player_avfoundation",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/video_player_avfoundation-2.6.2",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/video_player_avfoundation-2.6.7",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "video_player_platform_interface",
@@ -609,13 +687,13 @@
     },
     {
       "name": "watcher",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/watcher-1.1.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/watcher-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.1"
     },
     {
       "name": "web",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.0.0",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -662,6 +740,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "xdg_directories",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "xml",
       "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/xml-5.4.1",
       "packageUri": "lib/",
@@ -669,9 +753,9 @@
     },
     {
       "name": "yaml",
-      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2",
+      "rootUri": "file:///C:/Users/ilyin/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.3",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "chck_smth_in_flutter",
@@ -680,7 +764,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-11-14T11:59:41.874484Z",
+  "generated": "2025-01-21T18:53:15.028429Z",
   "generator": "pub",
   "generatorVersion": "3.5.1",
   "flutterRoot": "file:///C:/Flutter/flutter_sdk/flutter",

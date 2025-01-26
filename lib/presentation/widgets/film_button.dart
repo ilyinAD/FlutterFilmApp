@@ -11,7 +11,12 @@ import '../../presentation/widgets/film_info.dart';
 class FilmButton extends StatefulWidget {
   FilmCardModel result;
   final bool isTracked;
-  FilmButton({super.key, required this.result, required this.isTracked});
+  VoidCallback? notifyParent;
+  FilmButton(
+      {super.key,
+      required this.result,
+      required this.isTracked,
+      this.notifyParent});
 
   @override
   State<FilmButton> createState() => _FilmButtonState();
@@ -50,34 +55,69 @@ class _FilmButtonState extends State<FilmButton> {
           //onUpdate(updatedResult: updatedResult);
           setState(() {});
         }
+
+        if (widget.notifyParent != null) {
+          widget.notifyParent!();
+        }
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: widget.result.picture != null
-                ? Image.network(
-                    widget.result.picture!,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  )
-                : Image.asset('assets/images/sticker.jpg'),
+            child: ClipRect(
+              child: widget.result.picture != null
+                  ? Image.network(
+                      widget.result.picture!,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    )
+                  : Image.asset('assets/images/sticker.jpg'),
+            ),
           ),
           //Text(homeState.filmList.results[index].name),
           //Text(homeState.filmList.results[index].rating.toString()),
+          const SizedBox(width: 16),
           Expanded(
             flex: 2,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(widget.result.rating.toString()),
-                Text(widget.result.name),
+                Text(
+                  widget.result.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      widget.result.rating == null
+                          ? "-.-"
+                          : widget.result.rating.toString(),
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 Text(
                   widget.result.description ?? "",
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

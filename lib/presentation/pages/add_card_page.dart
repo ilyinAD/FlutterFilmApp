@@ -45,7 +45,7 @@ class _FilmCardState extends State<FilmCard> {
   };
 
   String? selectedStatus;
-
+  bool _ratingControllerErr = false;
   @override
   void initState() {
     super.initState();
@@ -152,6 +152,9 @@ class _FilmCardState extends State<FilmCard> {
                       padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                       child: TextFormField(
                         decoration: InputDecoration(
+                          errorText: _ratingControllerErr
+                              ? "Рейтинг это число от 0 до 10"
+                              : null,
                           labelText: "Rating",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -184,6 +187,7 @@ class _FilmCardState extends State<FilmCard> {
                     ),
                   ),
                   controller: descriptionEditingController,
+
                   maxLines: null,
 
                   //initialValue: name != null ? name! : "",
@@ -195,15 +199,32 @@ class _FilmCardState extends State<FilmCard> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (nameEditingController.text == "" ||
-              ratingEditingController.text == "") {
+          if (nameEditingController.text == "") {
             return;
           }
 
           setState(() {
+            late double? rating;
+            if (ratingEditingController.text == "") {
+              rating = null;
+            } else {
+              try {
+                rating = double.parse(ratingEditingController.text);
+              } catch (e) {
+                rating = null;
+                _ratingControllerErr = true;
+                return;
+              }
+            }
+
+            if (rating != null && (rating > 10 || rating < 0)) {
+              _ratingControllerErr = true;
+              return;
+            }
+
             FilmCardModel film = FilmCardModel(
                 name: nameEditingController.text,
-                rating: double.parse(ratingEditingController.text),
+                rating: rating,
                 id: widget.id,
                 description: descriptionEditingController.text,
                 status: statusMap[selectedStatus] ?? 0,

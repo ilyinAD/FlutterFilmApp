@@ -50,13 +50,13 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider<HomeBloc>(
       create: (context) => homeBloc,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              homeBloc.add(DataIsNotLoaded());
-              homeBloc.add(DataLoadedEvent(search: textEditingController.text));
-            },
-            tooltip: "update",
-            child: Icon(Icons.update)),
+        // floatingActionButton: FloatingActionButton(
+        //     onPressed: () {
+        //       homeBloc.add(DataIsNotLoaded());
+        //       homeBloc.add(DataLoadedEvent(search: textEditingController.text));
+        //     },
+        //     tooltip: "update",
+        //     child: Icon(Icons.update)),
         body: BlocBuilder<HomeBloc, HomeState>(
             bloc: homeBloc,
             builder: (context, state) {
@@ -84,11 +84,11 @@ class _HomePageState extends State<HomePage> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Первая страница',
+              label: 'Поиск',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.business),
-              label: 'Вторая страница',
+              label: 'Список фильмов',
             ),
           ],
         ),

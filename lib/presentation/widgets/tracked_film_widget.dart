@@ -45,9 +45,31 @@ class _TrackedFilmWidgetState extends State<TrackedFilmWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FilmInfo.fromFilmCardModel(result: film),
-            AddFilmButton(
-              film: film,
-              onUpdate: doUpdate,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RawMaterialButton(
+                      onPressed: () {
+                        TrackedFilmRepositoryModule.trackedFilmMapRepository()
+                            .deleteFilm(film: film);
+                        Navigator.pop(context, film);
+                      },
+                      elevation: 2.0,
+                      fillColor: Colors.white,
+                      padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                      child: const Icon(
+                        Icons.delete,
+                        size: 35,
+                      )),
+                ),
+                AddFilmButton(
+                  film: film,
+                  onUpdate: doUpdate,
+                ),
+              ],
             ),
           ],
         ),

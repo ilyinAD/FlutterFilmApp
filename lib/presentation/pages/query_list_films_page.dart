@@ -11,48 +11,71 @@ class ListOfFilms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
-    return ListView(
-      children: [
-        TextField(
-          controller: textEditingController,
-          onChanged: (text) {
-            homeBloc.add(DataIsNotLoaded());
-            homeBloc.add(DataLoadedEvent(search: textEditingController.text));
-          },
-        ),
-        BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state.isLoading == true) {
-              return const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            } else if (state.isGeted == false) {
-              return Container();
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount:
-                    state.filmList != null ? state.filmList!.results.length : 0,
-                itemBuilder: (context, index) {
-                  if (state.filmList != null) {
-                    return Column(
-                      children: [
-                        FilmButton(
-                          result: state.filmList!.results[index],
-                          isTracked: false,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              );
-            }
-          },
-        ),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Поиск сериала"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: textEditingController,
+              decoration: InputDecoration(
+                hintText: 'Поиск по сериалам...',
+                hintStyle: TextStyle(color: Colors.grey.shade400),
+                prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+              ),
+              onChanged: (text) {
+                homeBloc.add(DataIsNotLoaded());
+                homeBloc
+                    .add(DataLoadedEvent(search: textEditingController.text));
+              },
+            ),
+          ),
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state.isLoading == true) {
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              } else if (state.isGeted == false) {
+                return Container();
+              } else {
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.filmList != null
+                        ? state.filmList!.results.length
+                        : 0,
+                    itemBuilder: (context, index) {
+                      if (state.filmList != null) {
+                        return Column(
+                          children: [
+                            FilmButton(
+                              result: state.filmList!.results[index],
+                              isTracked: false,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

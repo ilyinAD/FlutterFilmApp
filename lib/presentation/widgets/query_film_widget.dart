@@ -19,7 +19,6 @@ class _QueryFilmWidgetState extends State<QueryFilmWidget> {
         ),
         //body: FilmInfo.fromFilmCardModel(result: widget.film)
         body: Column(
-          //shrinkWrap: true,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FilmInfo.fromFilmCardModel(result: widget.film),

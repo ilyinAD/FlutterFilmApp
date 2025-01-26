@@ -14,4 +14,26 @@ class FilmCardModel {
       required this.rating,
       this.status = untracked,
       required this.id});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'picture': picture,
+      'name': name,
+      'description': description,
+      'id': id,
+      'status': status,
+      'rating': rating,
+    };
+  }
+
+  factory FilmCardModel.fromJson(Map<String, dynamic> json) {
+    return FilmCardModel(
+      name: json['name'],
+      picture: json['picture'],
+      description: json['description'],
+      id: json['id'],
+      rating: json['rating'],
+      status: json['status'],
+    );
+  }
 }

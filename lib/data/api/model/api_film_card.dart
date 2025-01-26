@@ -6,11 +6,6 @@ class ApiFilmCard {
   final double? rating;
   final String? description;
   final int id;
-  // ApiFilmCard(
-  //     {this.picture = null,
-  //     required this.name,
-  //     required this.rating,
-  //     this.description = null});
   ApiFilmCard(
       {required this.name,
       required this.rating,
