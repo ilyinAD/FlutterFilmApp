@@ -6,7 +6,7 @@ class HomeState {
   final bool isLoading;
   final bool isGeted;
   final FilmListModel? filmList;
-  HomeState(
+  const HomeState(
       {required this.isLoading,
       required this.isGeted,
       required this.filmList,

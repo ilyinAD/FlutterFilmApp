@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
+import 'package:chck_smth_in_flutter/domain/model/seasons_list_model.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/season_list_module.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:chck_smth_in_flutter/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +54,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
   }
 
+  // late SeasonsListModel seasonsListModel;
+  //
+  // void f() async {
+  //   seasonsListModel = await SeasonListModule.seasonListRepository()
+  //       .getSeasonList(seriesId: 169);
+  //   print(seasonsListModel.seasons);
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -84,6 +94,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         useMaterial3: true,
       ),
       home: HomePage(),
+      // home: Column(
+      //   children: [
+      //     ElevatedButton(
+      //         onPressed: () {
+      //           f();
+      //         },
+      //         child: Container()),
+      //   ],
+      // ),
     );
   }
 }
