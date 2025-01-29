@@ -14,13 +14,13 @@ class SeasonsBloc extends Bloc<SeasonsEvent, SeasonsState> {
   SeasonsBloc()
       : super(const SeasonsState(
             seasonsListModel: null, isLoading: false, isGotten: false)) {
-    on<DataLoadedEvent>(_onLoaded);
-    on<DataIsNotLoaded>(_onIsNotLoaded);
-    on<DataIsNotGotten>(_onIsNotGotten);
-    on<DataLoadEmpty>(_onLoadEmpty);
+    on<SeasonsLoadedEvent>(_onLoaded);
+    on<SeasonsIsNotLoaded>(_onIsNotLoaded);
+    on<SeasonsIsNotGotten>(_onIsNotGotten);
+    on<SeasonsLoadEmpty>(_onLoadEmpty);
   }
 
-  _onLoaded(DataLoadedEvent event, Emitter<SeasonsState> emit) async {
+  _onLoaded(SeasonsLoadedEvent event, Emitter<SeasonsState> emit) async {
     final data = await SeasonListModule.seasonListRepository()
         .getSeasonList(seriesId: event.seriesId);
     emit(state.copyWith(
@@ -28,15 +28,15 @@ class SeasonsBloc extends Bloc<SeasonsEvent, SeasonsState> {
     print("data loaded");
   }
 
-  _onIsNotLoaded(DataIsNotLoaded event, Emitter<SeasonsState> emit) {
+  _onIsNotLoaded(SeasonsIsNotLoaded event, Emitter<SeasonsState> emit) {
     emit(state.copyWith(isLoading: true));
   }
 
-  _onIsNotGotten(DataIsNotGotten event, Emitter<SeasonsState> emit) {
+  _onIsNotGotten(SeasonsIsNotGotten event, Emitter<SeasonsState> emit) {
     emit(state.copyWith(isGotten: false));
   }
 
-  _onLoadEmpty(DataLoadEmpty event, Emitter<SeasonsState> emit) {
+  _onLoadEmpty(SeasonsLoadEmpty event, Emitter<SeasonsState> emit) {
     emit(state.copyWith(
         isLoading: false, seasonsListModel: SeasonsListModel(seasons: [])));
   }

@@ -9,9 +9,9 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc()
       : super(HomeState(isLoading: false, isGeted: false, filmList: null)) {
-    on<DataLoadedEvent>(_onLoaded);
-    on<DataIsNotLoaded>(_onIsNotLoaded);
-    on<DataIsNotGeted>(_onIsNotGeted);
+    on<FilmsLoadedEvent>(_onLoaded);
+    on<FilmsIsNotLoaded>(_onIsNotLoaded);
+    on<FilmsIsNotGeted>(_onIsNotGeted);
     on<ChangeIndex>(_onChangeIndex);
   }
 
@@ -19,11 +19,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(chosenIndex: event.index));
   }
 
-  _onIsNotGeted(DataIsNotGeted event, Emitter<HomeState> emit) {
+  _onIsNotGeted(FilmsIsNotGeted event, Emitter<HomeState> emit) {
     emit(state.copyWith(isGeted: false));
   }
 
-  _onLoaded(DataLoadedEvent event, Emitter<HomeState> emit) async {
+  _onLoaded(FilmsLoadedEvent event, Emitter<HomeState> emit) async {
     final data = await RepositoryModule.filmListRepository()
         .getFilmList(search: event.search);
     emit(state.copyWith(
@@ -33,7 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     ));
   }
 
-  _onIsNotLoaded(DataIsNotLoaded event, Emitter<HomeState> emit) {
+  _onIsNotLoaded(FilmsIsNotLoaded event, Emitter<HomeState> emit) {
     emit(state.copyWith(isLoading: true));
   }
 }

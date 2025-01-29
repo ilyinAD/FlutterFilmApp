@@ -28,6 +28,7 @@ class FilmInfo extends StatefulWidget {
 class _FilmInfoState extends State<FilmInfo>
     with SingleTickerProviderStateMixin {
   bool isExpanded = false;
+  List<bool> isExpandedSeasons = [];
   late SeasonsBloc seasonsBloc;
   void onUpdate({required FilmCardModel updatedFilm}) {
     setState(() {
@@ -44,11 +45,11 @@ class _FilmInfoState extends State<FilmInfo>
     super.initState();
     seasonsBloc = SeasonsBloc();
     if (widget.film.id <= 0) {
-      seasonsBloc.add(DataLoadEmpty());
+      seasonsBloc.add(SeasonsLoadEmpty());
     } else {
       print("id > 0");
-      seasonsBloc.add(DataIsNotLoaded());
-      seasonsBloc.add(DataLoadedEvent(seriesId: widget.film.id));
+      seasonsBloc.add(SeasonsIsNotLoaded());
+      seasonsBloc.add(SeasonsLoadedEvent(seriesId: widget.film.id));
     }
   }
 
@@ -157,65 +158,98 @@ class _FilmInfoState extends State<FilmInfo>
                 }
 
                 final seasons = state.seasonsListModel!.seasons;
-                return ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: seasons.length,
-                  itemBuilder: (context, index) {
-                    final season = seasons[index];
-                    //return Text("aaaaaaa");
-                    return Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(12)),
-                            child: season.image != null
-                                ? Image.network(
-                                    season.image!,
-                                    height: 200,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(),
+                if (isExpandedSeasons.isEmpty) {
+                  isExpandedSeasons =
+                      List.generate(seasons.length, (index) => false);
+                }
+
+                // return Column(
+                //   children:
+                //       List.generate(100, (index) => Text("Элемент $index")),
+                // );
+
+                return Column(
+                    children: List.generate(seasons.length, (index) {
+                  final season = seasons[index];
+                  //bool isExpandedSeason = false;
+                  return Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${season.number}-ый сезон",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  season.description ?? "",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 16),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EpisodesPage(season: season),
-                                      ),
-                                    );
-                                  },
-                                  child: const Text('Подробнее о сезоне'),
-                                ),
-                              ],
-                            ),
+                        ),
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12)),
+                          child: season.image != null
+                              ? Image.network(
+                                  season.image!,
+                                  height: 200,
+                                  width: double.infinity,
+                                  fit: BoxFit.contain,
+                                )
+                              : widget.picture != null
+                                  ? Image.network(
+                                      widget.picture!,
+                                      fit: BoxFit.contain,
+                                      height: 200,
+                                      width: double.infinity,
+                                    )
+                                  : Container(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                isExpandedSeasons[index]
+                                    ? widget.description!
+                                    : "${widget.description!.substring(0, min(widget.description!.length, 100))}...",
+                                softWrap: true,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isExpandedSeasons[index] =
+                                        !isExpandedSeasons[index];
+                                  });
+                                },
+                                child: Text(isExpandedSeasons[index]
+                                    ? "Скрыть"
+                                    : "Показать больше"),
+                              ),
+                              const SizedBox(height: 16),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EpisodesPage(season: season),
+                                    ),
+                                  );
+                                },
+                                child: const Text('Подробнее о сезоне'),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+                        ),
+                      ],
+                    ),
+                  );
+                }));
               }),
             ],
           ),
@@ -225,10 +259,23 @@ class _FilmInfoState extends State<FilmInfo>
   }
 }
 
-class EpisodesPage extends StatelessWidget {
+class EpisodesPage extends StatefulWidget {
   final SeasonCardModel season;
-
   const EpisodesPage({required this.season, Key? key}) : super(key: key);
+
+  @override
+  State<EpisodesPage> createState() => _EpisodesPageState();
+}
+
+class _EpisodesPageState extends State<EpisodesPage> {
+  late List<bool> isExpandedEpisodes;
+  @override
+  void initState() {
+    super.initState();
+    isExpandedEpisodes = List.generate(
+        widget.season.episodes != null ? widget.season.episodes!.length : 0,
+        (index) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +285,10 @@ class EpisodesPage extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8.0),
-        itemCount: season.episodes != null ? season.episodes!.length : 0,
+        itemCount:
+            widget.season.episodes != null ? widget.season.episodes!.length : 0,
         itemBuilder: (context, index) {
-          final episode = season.episodes![index];
+          final episode = widget.season.episodes![index];
           return ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -253,11 +301,42 @@ class EpisodesPage extends StatelessWidget {
                     )
                   : Image.asset('assets/images/sticker.jpg'),
             ),
-            title: Text('Серия ${episode.number}'),
-            subtitle: Text(
-              episode.description ?? "",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            title: Row(children: [
+              Text('Серия ${episode.number}'),
+              if (episode.rating != null)
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: Colors.amber),
+                    const SizedBox(width: 4),
+                    Text(
+                      episode.rating.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+            ]),
+            subtitle: Column(
+              children: [
+                Text(
+                  isExpandedEpisodes[index]
+                      ? episode.description!
+                      : "${episode.description!.substring(0, min(episode.description!.length, 100))}...",
+                  softWrap: true,
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isExpandedEpisodes[index] = !isExpandedEpisodes[index];
+                    });
+                  },
+                  child: Text(
+                      isExpandedEpisodes[index] ? "Скрыть" : "Показать больше"),
+                ),
+              ],
             ),
           );
         },
