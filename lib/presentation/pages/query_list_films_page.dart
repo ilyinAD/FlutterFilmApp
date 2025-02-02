@@ -12,6 +12,7 @@ class ListOfFilms extends StatelessWidget {
     final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Поиск сериала"),
       ),
       body: Column(

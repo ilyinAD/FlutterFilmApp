@@ -1,12 +1,12 @@
 import 'package:chck_smth_in_flutter/domain/home_bloc/home_bloc.dart';
-import 'package:chck_smth_in_flutter/presentation/widgets/query_film_widget.dart';
-import 'package:chck_smth_in_flutter/presentation/widgets/tracked_film_widget.dart';
+import 'package:chck_smth_in_flutter/presentation/pages/query_film_page.dart';
+import 'package:chck_smth_in_flutter/presentation/pages/tracked_film_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/model/film_card_model.dart';
 import '../pages/add_card_page.dart';
 import '../pages/home_page.dart';
-import '../../presentation/widgets/film_info.dart';
+import '../../presentation/widgets/film_info_widget.dart';
 
 class FilmButton extends StatefulWidget {
   FilmCardModel result;

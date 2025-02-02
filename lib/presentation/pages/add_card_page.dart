@@ -197,7 +197,7 @@ class _FilmCardState extends State<FilmCard> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           if (nameEditingController.text == "") {
             return;
@@ -234,7 +234,8 @@ class _FilmCardState extends State<FilmCard> {
             Navigator.pop(context, film);
           });
         },
-        child: Text("Save"),
+        label: const Text("Сохранить"),
+        //child: const Text("Сохранить"),
       ),
     );
   }

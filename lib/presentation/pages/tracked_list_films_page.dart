@@ -97,6 +97,7 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text("Отмеченные сериалы"),
           actions: [
             IconButton(
