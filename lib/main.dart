@@ -31,68 +31,68 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  // Future<void> _saveData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String jsonString = jsonEncode(
-  //       TrackedFilmRepositoryModule.trackedFilmMapRepository().films.map(
-  //             (key, value) => MapEntry(key.toString(), value.toJson()),
-  //           ));
-  //   await prefs.setString('myMap', jsonString);
-  // }
-  //
-  // Future<void> _loadData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? jsonString = prefs.getString('myMap');
-  //   if (jsonString != null) {
-  //     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-  //     setState(() {
-  //       TrackedFilmRepositoryModule.trackedFilmMapRepository().films =
-  //           jsonMap.map(
-  //         (key, value) =>
-  //             MapEntry(int.parse(key), FilmCardModel.fromJson(value)),
-  //       );
-  //     });
-  //   }
-  // }
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //_loadData();
-  //   WidgetsBinding.instance.addObserver(this);
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   WidgetsBinding.instance.removeObserver(this);
-  //   super.dispose();
-  // }
-  //
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-  //
-  //   if (state == AppLifecycleState.inactive ||
-  //       state == AppLifecycleState.detached) {
-  //     _saveData();
-  //   }
-  // }
+  Future<void> _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String jsonString = jsonEncode(
+        TrackedFilmRepositoryModule.trackedFilmMapRepository().films.map(
+              (key, value) => MapEntry(key.toString(), value.toJson()),
+            ));
+    await prefs.setString('myMap', jsonString);
+  }
+
+  Future<void> _loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString('myMap');
+    if (jsonString != null) {
+      Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+      setState(() {
+        TrackedFilmRepositoryModule.trackedFilmMapRepository().films =
+            jsonMap.map(
+          (key, value) =>
+              MapEntry(int.parse(key), FilmCardModel.fromJson(value)),
+        );
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //_loadData();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      _saveData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
       //home: HomePage(),
-      // home: LoginPage(),
-      // routes: {
-      //   '/login': (context) => LoginPage(),
-      //   '/registration': (context) => RegistrationPage(),
-      // },
-      home: Placeholder(),
+      home: LoginPage(),
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/registration': (context) => RegistrationPage(),
+      },
+      //home: Placeholder(),
     );
   }
 }

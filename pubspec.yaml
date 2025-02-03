@@ -38,10 +38,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   dio: 5.5.0
   logger: ^2.4.0
-  flutter_html: ^2.2.1
+  #flutter_html: ^2.2.1
   postgres: ^3.4.8
-  wakelock: any
-  wakelock_windows: ^0.2.0
+  #html: ^0.15.0
+  #wakelock: any
+  #wakelock_windows: ^0.2.0
 
 dev_dependencies:
   flutter_test:

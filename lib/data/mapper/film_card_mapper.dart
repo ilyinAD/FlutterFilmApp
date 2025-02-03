@@ -6,7 +6,8 @@ import '../../utils/utils.dart';
 
 class FilmCardMapper {
   static FilmCardModel fromApi(ApiFilmCard film) {
-    String needDescription = parseHtmlString(film.description ?? "");
+    //String needDescription = parseHtmlString(film.description ?? "");
+    String needDescription = film.description ?? "";
     return FilmCardModel(
         name: film.name,
         rating: film.rating,
