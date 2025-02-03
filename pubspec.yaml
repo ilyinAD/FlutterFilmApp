@@ -40,6 +40,8 @@ dependencies:
   logger: ^2.4.0
   flutter_html: ^2.2.1
   postgres: ^3.4.8
+  wakelock: any
+  wakelock_windows: ^0.2.0
 
 dev_dependencies:
   flutter_test:

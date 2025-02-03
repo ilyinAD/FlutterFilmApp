@@ -1,7 +1,10 @@
+import 'package:chck_smth_in_flutter/data/api/service/backend_service.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
+import '../../domain/model/user_model.dart';
 import 'home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -20,54 +23,70 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final TextEditingController _passwordController = TextEditingController();
 
+  String? error;
+  final logger = Logger();
   void _register(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final result = await f(_usernameController.text, _passwordController.text,
-        _emailController.text);
-    if (result == false) {
-      return;
-    }
-    if (mounted) {
+    try {
+      final result = await BackendRepositoryModule.backendManager().register(
+          _usernameController.text,
+          _passwordController.text,
+          _emailController.text);
+
+      logger.i(
+          "id: ${result.id} username: ${result.username} email: ${result.email}");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Регистрация успешна!')),
+        );
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
+      }
+    } on DioException catch (e) {
+      if (mounted) {
+        if (e.response != null) {
+          final statusCode = e.response!.statusCode;
+          final errorMessage =
+              e.response!.data['error'] ?? 'Неизвестная ошибка';
+          switch (statusCode) {
+            case 400:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка: $errorMessage')),
+              );
+              break;
+            case 401:
+              logger.i(401);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('$errorMessage')),
+              );
+              break;
+            case 500:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка сети')),
+              );
+              break;
+            default:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка: $errorMessage')),
+              );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Ошибка сети: $e')),
+          );
+        }
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Регистрация успешна!')),
+        SnackBar(content: Text('Неизвестная ошибка: $e')),
       );
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }
   }
 
-  Dio dio = Dio();
-
-  final logger = Logger();
-
-  Future<bool> f(String username, String password, String email) async {
-    final data = {
-      'username': username,
-      'password': password,
-      'email': email,
-    };
-    logger.i("post query $username and $password");
-    final result = await dio.post(
-      'http://192.168.1.55:8080/register\n?Content-Type%09=application/json%0A',
-      data: data,
-      //options: Options(headers: {'Content-Type': 'application/json'}),
-    );
-
-    if (result.statusCode != 200) {
-      logger.w("status code is${result.statusCode}");
-      return false;
-    }
-
-    if (result.data["error"] != null) {
-      logger.i("error:${result.data["error"]}");
-      return false;
-    }
-
-    return true;
-  }
+  void saveUser(UserModel user) {}
 
   @override
   Widget build(BuildContext context) {

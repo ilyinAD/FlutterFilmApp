@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -18,51 +22,68 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _passwordController = TextEditingController();
 
+  final logger = Logger();
+
   void _login(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final result = await f(_usernameController.text, _passwordController.text);
-    if (result == false) {
-      return;
-    }
-    if (mounted) {
+    try {
+      final result = await BackendRepositoryModule.backendManager()
+          .login(_usernameController.text, _passwordController.text);
+
+      logger.i(
+          "id: ${result.id} username: ${result.username} email: ${result.email}");
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Вход успешен!')),
+        );
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
+      }
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // String jsonString = jsonEncode(result.toJson());
+      // await prefs.setString('user', jsonString);
+    } on DioException catch (e) {
+      if (mounted) {
+        if (e.response != null) {
+          final statusCode = e.response!.statusCode;
+          final errorMessage =
+              e.response!.data['error'] ?? 'Неизвестная ошибка';
+          switch (statusCode) {
+            case 400:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка: $errorMessage')),
+              );
+              break;
+            case 401:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('$errorMessage')),
+              );
+              break;
+            case 500:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка сети')),
+              );
+              break;
+            default:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ошибка: $errorMessage')),
+              );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Ошибка сети: $e')),
+          );
+        }
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Вход успешен!')),
+        SnackBar(content: Text('Неизвестная ошибка: $e')),
       );
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }
-  }
-
-  Dio dio = Dio();
-
-  final logger = Logger();
-
-  Future<bool> f(String username, String password) async {
-    final data = {
-      'username': username,
-      'password': password,
-    };
-    logger.i("post query $username and $password");
-    final result = await dio.post(
-      'http://192.168.1.55:8080/login\n?Content-Type%09=application/json%0A',
-      data: data,
-      //options: Options(headers: {'Content-Type': 'application/json'}),
-    );
-
-    if (result.statusCode != 200) {
-      logger.w("status code is${result.statusCode}");
-      return false;
-    }
-
-    if (result.data["error"] != null) {
-      logger.i("error:${result.data["error"]}");
-      return false;
-    }
-
-    return true;
   }
 
   @override
