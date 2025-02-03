@@ -1,1 +1,38 @@
-.*/
+# Файлы и папки, которые не должны попадать в репозиторий
+
+# Кэш сборки и временные файлы
+build/
+.android/
+.ios/
+.macos/
+windows/
+web/
+linux/
+
+# Файлы IDE
+.idea/
+*.iml
+
+# Кэш зависимостей
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# Файл с ключами для Flutter (если используется)
+key.properties
+
+# Сторонние зависимости (если используются)
+pubspec.lock
+
+# Файл с конфиденциальными данными (если есть)
+.env
+
+# Файлы Xcode
+xcuserdata/
+DerivedData/
+Pods/
