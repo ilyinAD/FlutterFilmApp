@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    //_loadData();
+    _loadData();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -87,119 +87,53 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         useMaterial3: true,
       ),
       //home: HomePage(),
-      home: LoginPage(),
+      home: const SplashScreen(),
       routes: {
-        '/login': (context) => LoginPage(),
-        '/registration': (context) => RegistrationPage(),
+        '/login': (context) => const LoginPage(),
+        '/registration': (context) => const RegistrationPage(),
       },
       //home: Placeholder(),
     );
   }
 }
 
-// class RegistrationPage extends StatefulWidget {
-//   @override
-//   _RegistrationPageState createState() => _RegistrationPageState();
-// }
-//
-// class _RegistrationPageState extends State<RegistrationPage> {
-//   final _formKey = GlobalKey<FormState>();
-//   final TextEditingController _usernameController = TextEditingController();
-//   final TextEditingController _passwordController = TextEditingController();
-//   Dio dio = Dio();
-//   final logger = Logger();
-//   Future<bool> f(String username, String password) async {
-//     final data = {
-//       'username': username,
-//       'password': password,
-//     };
-//     logger.i("post query $username and $password");
-//     final result = await dio.post(
-//       'http://192.168.1.55:8080/register\n?Content-Type%09=application/json%0A',
-//       data: data,
-//       //options: Options(headers: {'Content-Type': 'application/json'}),
-//     );
-//
-//     if (result.statusCode != 200) {
-//       logger.w("status code is${result.statusCode}");
-//       return false;
-//     }
-//
-//     if (result.data["error"] != null) {
-//       logger.i("error:${result.data["error"]}");
-//       return false;
-//     }
-//
-//     return true;
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Регистрация')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Form(
-//           key: _formKey,
-//           child: Column(
-//             children: [
-//               TextFormField(
-//                 controller: _usernameController,
-//                 decoration: const InputDecoration(labelText: 'Логин'),
-//                 //keyboardType: TextInputType.emailAddress,
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Введите логин';
-//                   }
-//                   // else if (!RegExp(
-//                   //         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}")
-//                   //     .hasMatch(value)) {
-//                   //   return 'Неверный формат email';
-//                   // }
-//                   return null;
-//                 },
-//               ),
-//               const SizedBox(height: 16.0),
-//               TextFormField(
-//                 controller: _passwordController,
-//                 decoration: InputDecoration(labelText: 'Пароль'),
-//                 obscureText: true,
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Введите пароль';
-//                   } else if (value.length < 6) {
-//                     return 'Пароль должен быть не менее 6 символов';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               const SizedBox(height: 20.0),
-//               ElevatedButton(
-//                 onPressed: () async {
-//                   if (!_formKey.currentState!.validate()) {
-//                     return;
-//                   }
-//                   final result = await f(
-//                       _usernameController.text, _passwordController.text);
-//                   if (result == false) {
-//                     return;
-//                   }
-//                   if (mounted) {
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       const SnackBar(content: Text('Регистрация успешна!')),
-//                     );
-//                     Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => const HomePage()));
-//                   }
-//                 },
-//                 child: const Text('Зарегистрироваться'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  Widget? _widget;
+
+  void _checkIfLogged() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getInt('id');
+    print("OK");
+    if (!mounted) {
+      return;
+    }
+    print("OK1");
+
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => id != null ? const HomePage() : const LoginPage(),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfLogged();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}

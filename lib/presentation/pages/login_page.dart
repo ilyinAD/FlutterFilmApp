@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../utils/utils.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -24,65 +25,33 @@ class _LoginPageState extends State<LoginPage> {
 
   final logger = Logger();
 
-  void _login(BuildContext context) async {
+  void _login() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     try {
-      final result = await BackendRepositoryModule.backendManager()
-          .login(_usernameController.text, _passwordController.text);
+      final result = await registerOrLogin(
+          query: "login",
+          username: _usernameController.text,
+          password: _passwordController.text);
 
       logger.i(
           "id: ${result.id} username: ${result.username} email: ${result.email}");
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Вход успешен!')),
+          const SnackBar(content: Text('Регистрация успешна!')),
         );
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // String jsonString = jsonEncode(result.toJson());
-      // await prefs.setString('user', jsonString);
-    } on DioException catch (e) {
-      if (mounted) {
-        if (e.response != null) {
-          final statusCode = e.response!.statusCode;
-          final errorMessage =
-              e.response!.data['error'] ?? 'Неизвестная ошибка';
-          switch (statusCode) {
-            case 400:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка: $errorMessage')),
-              );
-              break;
-            case 401:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('$errorMessage')),
-              );
-              break;
-            case 500:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка сети')),
-              );
-              break;
-            default:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка: $errorMessage')),
-              );
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Ошибка сети: $e')),
-          );
-        }
-      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Неизвестная ошибка: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
     }
   }
 
@@ -90,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Вход'),
+        title: const Text('Вход'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -116,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => _login(context),
+                onPressed: () => _login(),
                 child: const Text('Войти'),
               ),
               const SizedBox(height: 16),

@@ -1,5 +1,7 @@
+import 'package:chck_smth_in_flutter/constants/constants.dart';
 import 'package:chck_smth_in_flutter/data/api/service/backend_service.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
+import 'package:chck_smth_in_flutter/utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -8,7 +10,7 @@ import '../../domain/model/user_model.dart';
 import 'home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
-  RegistrationPage({super.key});
+  const RegistrationPage({super.key});
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
@@ -25,19 +27,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   String? error;
   final logger = Logger();
-  void _register(BuildContext context) async {
+  void _register() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     try {
-      final result = await BackendRepositoryModule.backendManager().register(
-          _usernameController.text,
-          _passwordController.text,
-          _emailController.text);
+      final result = await registerOrLogin(
+          query: "register",
+          username: _usernameController.text,
+          password: _passwordController.text,
+          email: _emailController.text);
 
       logger.i(
           "id: ${result.id} username: ${result.username} email: ${result.email}");
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Регистрация успешна!')),
@@ -45,44 +49,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
-    } on DioException catch (e) {
-      if (mounted) {
-        if (e.response != null) {
-          final statusCode = e.response!.statusCode;
-          final errorMessage =
-              e.response!.data['error'] ?? 'Неизвестная ошибка';
-          switch (statusCode) {
-            case 400:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка: $errorMessage')),
-              );
-              break;
-            case 401:
-              logger.i(401);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('$errorMessage')),
-              );
-              break;
-            case 500:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка сети')),
-              );
-              break;
-            default:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ошибка: $errorMessage')),
-              );
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Ошибка сети: $e')),
-          );
-        }
-      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Неизвестная ошибка: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
     }
   }
 
@@ -146,14 +118,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (value == null || value.isEmpty) {
                     return 'Введите пароль';
                   } else if (value.length < 8) {
-                    return 'Пароль должен быть не менее 6 символов';
+                    return 'Пароль должен быть не менее 8 символов';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => _register(context),
+                onPressed: () => _register(),
                 child: const Text('Зарегистрироваться'),
               ),
               const SizedBox(height: 16),

@@ -126,6 +126,5 @@ class _FilmButtonState extends State<FilmButton> {
         ],
       ),
     );
-    ;
   }
 }

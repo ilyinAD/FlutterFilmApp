@@ -7,10 +7,8 @@ class BackendManager {
   Dio dio = Dio();
 
   final logger = Logger();
-  final String registerUrl =
-      'http://192.168.1.55:8080/register\n?Content-Type%09=application/json%0A';
-  final String loginUrl =
-      'http://192.168.1.55:8080/login\n?Content-Type%09=application/json%0A';
+  final String registerUrl = 'http://192.168.1.55:8080/register';
+  final String loginUrl = 'http://192.168.1.55:8080/login';
   Future<UserModel> register(
       String username, String password, String email) async {
     final data = {

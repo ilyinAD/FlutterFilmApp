@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/home_bloc/home_bloc.dart';
+import '../widgets/settings_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     _pages = [
       ListOfFilms(textEditingController: textEditingController),
       const TrackedListOfFilms(),
+      const Settings(),
     ];
   }
 
@@ -47,6 +49,18 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider<HomeBloc>(
       create: (context) => homeBloc,
       child: Scaffold(
+        // appBar: AppBar(
+        //   actions: [
+        //     IconButton(
+        //         onPressed: () {
+        //           Navigator.push(
+        //               context,
+        //               MaterialPageRoute(
+        //                   builder: (context) => const Settings()));
+        //         },
+        //         icon: const Icon(Icons.settings)),
+        //   ],
+        // ),
         // floatingActionButton: FloatingActionButton(
         //     onPressed: () {
         //       homeBloc.add(DataIsNotLoaded());
@@ -85,6 +99,10 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.business),
               label: 'Список фильмов',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Настройки",
+            )
           ],
         ),
       ),
