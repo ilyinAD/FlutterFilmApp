@@ -1,3 +1,5 @@
+import 'package:chck_smth_in_flutter/domain/backend_bloc/backend_bloc.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
 import 'package:chck_smth_in_flutter/presentation/pages/query_list_films_page.dart';
 import 'package:chck_smth_in_flutter/presentation/pages/tracked_list_films_page.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController textEditingController;
   int _selectedIndex = 0;
   late List<Widget> _pages;
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -25,10 +26,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   final HomeBloc homeBloc = HomeBloc();
+  final BackendBloc backendBloc = BackendBloc();
   @override
   void initState() {
     super.initState();
     homeBloc.add(FilmsIsNotGeted());
+    backendBloc.add(BackendIsNotLoaded());
+    print("START LOADING");
+    backendBloc.add(BackendLoadedEvent());
     textEditingController = TextEditingController();
     _pages = [
       ListOfFilms(textEditingController: textEditingController),
@@ -46,8 +51,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //homeBloc.add(DataIsNotGeted());
-    return BlocProvider<HomeBloc>(
-      create: (context) => homeBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(create: (context) => homeBloc),
+        BlocProvider<BackendBloc>(create: (context) => backendBloc),
+      ],
+      //create: (context) => homeBloc,
       child: Scaffold(
         // appBar: AppBar(
         //   actions: [
@@ -68,24 +77,30 @@ class _HomePageState extends State<HomePage> {
         //     },
         //     tooltip: "update",
         //     child: Icon(Icons.update)),
-        body: BlocBuilder<HomeBloc, HomeState>(
-            bloc: homeBloc,
+        body: BlocBuilder<BackendBloc, BackendState>(
+            bloc: backendBloc,
             builder: (context, state) {
-              // return Align(
-              //   child: state.chosenIndex != -1
-              //       ? FilmInfo(
-              //           result: state.filmList!.results[state.chosenIndex],
-              //           index: state.chosenIndex)
-              //       : ListOfFilms(
-              //           textEditingController: textEditingController,
-              //         ),
-              // );
-              return _pages[_selectedIndex];
-              // return Align(
-              //   child: ListOfFilms(
-              //     textEditingController: textEditingController,
-              //   ),
-              // );
+              return state.isLoading == true
+                  ? Container()
+                  : BlocBuilder<HomeBloc, HomeState>(
+                      bloc: homeBloc,
+                      builder: (context, state) {
+                        // return Align(
+                        //   child: state.chosenIndex != -1
+                        //       ? FilmInfo(
+                        //           result: state.filmList!.results[state.chosenIndex],
+                        //           index: state.chosenIndex)
+                        //       : ListOfFilms(
+                        //           textEditingController: textEditingController,
+                        //         ),
+                        // );
+                        return _pages[_selectedIndex];
+                        // return Align(
+                        //   child: ListOfFilms(
+                        //     textEditingController: textEditingController,
+                        //   ),
+                        // );
+                      });
             }),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,

@@ -31,34 +31,34 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  Future<void> _saveData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonString = jsonEncode(
-        TrackedFilmRepositoryModule.trackedFilmMapRepository().films.map(
-              (key, value) => MapEntry(key.toString(), value.toJson()),
-            ));
-    await prefs.setString('myMap', jsonString);
-  }
-
-  Future<void> _loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonString = prefs.getString('myMap');
-    if (jsonString != null) {
-      Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-      setState(() {
-        TrackedFilmRepositoryModule.trackedFilmMapRepository().films =
-            jsonMap.map(
-          (key, value) =>
-              MapEntry(int.parse(key), FilmCardModel.fromJson(value)),
-        );
-      });
-    }
-  }
+  // Future<void> _saveData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String jsonString = jsonEncode(
+  //       TrackedFilmRepositoryModule.trackedFilmMapRepository().films.map(
+  //             (key, value) => MapEntry(key.toString(), value.toJson()),
+  //           ));
+  //   await prefs.setString('myMap', jsonString);
+  // }
+  //
+  // Future<void> _loadData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? jsonString = prefs.getString('myMap');
+  //   if (jsonString != null) {
+  //     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+  //     setState(() {
+  //       TrackedFilmRepositoryModule.trackedFilmMapRepository().films =
+  //           jsonMap.map(
+  //         (key, value) =>
+  //             MapEntry(int.parse(key), FilmCardModel.fromJson(value)),
+  //       );
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    //_loadData();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
-      _saveData();
+      //_saveData();
     }
   }
 
@@ -110,13 +110,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkIfLogged() async {
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getInt('id');
-    print("OK");
+    //print("OK");
     if (!mounted) {
       return;
     }
-    print("OK1");
-
-    if (!mounted) return;
+    //print("OK1");
 
     Navigator.pushReplacement(
       context,

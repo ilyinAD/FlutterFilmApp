@@ -1,6 +1,7 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:chck_smth_in_flutter/domain/repository/tracked_film_map_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../internal/dependencies/tracked_film_repository_module.dart';
 import '../widgets/film_button.dart';
@@ -77,10 +78,11 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
   void initState() {
     super.initState();
     queryEditingController = TextEditingController();
-    clearGroupedFilms();
+    //clearGroupedFilms();
 
     _tabController = TabController(length: 3, vsync: this);
-    updateGroupedFilms(query: "");
+    //updateGroupedFilms(query: "");
+    update();
   }
 
   @override

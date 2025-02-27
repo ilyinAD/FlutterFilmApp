@@ -1,5 +1,7 @@
+import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../domain/model/user_model.dart';
 
@@ -9,6 +11,10 @@ class BackendManager {
   final logger = Logger();
   final String registerUrl = 'http://192.168.1.55:8080/register';
   final String loginUrl = 'http://192.168.1.55:8080/login';
+  final String addFilmUrl = 'http://192.168.1.55:8080/addFilm';
+  final String delFilmUrl = 'http://192.168.1.55:8080/deleteFilm';
+  final String getFilmUrl = 'http://192.168.1.55:8080/getFilm';
+  final String getFilmsUrl = 'http://192.168.1.55:8080/getFilms';
   Future<UserModel> register(
       String username, String password, String email) async {
     final data = {
@@ -63,4 +69,99 @@ class BackendManager {
       rethrow;
     }
   }
+
+  void addFilm(FilmCardModel film) async {
+    final prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+    if (id == null) {
+      throw Exception("not id in sharepref");
+    }
+
+    final data = {
+      "userID": id,
+      "id": film.id,
+      "picture": film.picture,
+      "name": film.name,
+      "rating": film.rating,
+      "description": film.description,
+      "status": film.status
+    };
+
+    try {
+      final result = await dio.post(addFilmUrl, data: data);
+      if (result.statusCode == 200) {
+        return;
+      }
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  void deleteFilm(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final data = {
+      "id": id,
+      "user_id": prefs.getInt('id'),
+    };
+
+    try {
+      final result = await dio.delete(delFilmUrl, data: data);
+      if (result.statusCode == 200) {
+        return;
+      }
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<FilmCardModel> getFilm(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final data = {
+      "id": id,
+      "user_id": prefs.getInt('id'),
+    };
+
+    try {
+      final result = await dio.get(getFilmUrl, data: data);
+      if (result.statusCode == 200) {
+        return FilmCardModel.fromJson(result.data);
+      }
+      throw Exception("status code isnt 200");
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<FilmCardModel>> getFilms(int userID) async {
+    final data = {
+      "user_id": userID,
+    };
+
+    try {
+      final response = await dio.get(getFilmsUrl, data: data);
+      if (response.statusCode == 200) {
+        List<FilmCardModel> results = [];
+        if (response.data == null) {
+          return results;
+        }
+        for (var i = 0; i < response.data.length; ++i) {
+          results.add(FilmCardModel.fromJson(response.data[i]));
+        }
+
+        return results;
+      }
+      throw Exception("status code isn't 200");
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  //TODO:: крч таперь надо партиции сделать то есть у каждого фильма еще
+  // хранить страницу и отображать постранично но мб пофиг типа фильмов не так уж и много хз.
 }

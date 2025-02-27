@@ -1,4 +1,5 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/general_film_repository_module.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -229,8 +230,9 @@ class _FilmCardState extends State<FilmCard> {
                 description: descriptionEditingController.text,
                 status: statusMap[selectedStatus] ?? 0,
                 picture: picture);
-            TrackedFilmRepositoryModule.trackedFilmMapRepository()
-                .addFilm(film: film);
+            // TrackedFilmRepositoryModule.trackedFilmMapRepository()
+            //     .addFilm(film: film);
+            GeneralFilmRepositoryModule.generalFilmRepository().addFilm(film);
             Navigator.pop(context, film);
           });
         },

@@ -15,17 +15,34 @@ class TrackedFilmWidget extends StatefulWidget {
 
 class _TrackedFilmWidgetState extends State<TrackedFilmWidget> {
   late FilmCardModel film;
-  void doUpdate() {
+  //bool isLoading = true;
+  void doUpdate() async {
+    //isLoading = true;
+    // var result = await TrackedFilmRepositoryModule.trackedFilmMapRepository()
+    //     .getFilm(id: widget.id);
+
     setState(() {
       film = TrackedFilmRepositoryModule.trackedFilmMapRepository()
           .films[widget.id]!;
     });
+
+    // setState(() {
+    //   film = result;
+    //   isLoading = false;
+    // });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   doUpdate();
+  // }
 
   @override
   Widget build(BuildContext context) {
     film = TrackedFilmRepositoryModule.trackedFilmMapRepository()
         .films[widget.id]!;
+    //doUpdate();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) async {

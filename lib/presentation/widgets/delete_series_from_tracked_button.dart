@@ -1,3 +1,4 @@
+import 'package:chck_smth_in_flutter/internal/dependencies/general_film_repository_module.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/model/film_card_model.dart';
@@ -13,8 +14,10 @@ class DeleteSeriesButton extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: RawMaterialButton(
           onPressed: () {
-            TrackedFilmRepositoryModule.trackedFilmMapRepository()
-                .deleteFilm(film: film);
+            // TrackedFilmRepositoryModule.trackedFilmMapRepository()
+            //     .deleteFilm(film: film);
+            GeneralFilmRepositoryModule.generalFilmRepository()
+                .deleteFilm(film);
             Navigator.pop(context, film);
           },
           elevation: 2.0,

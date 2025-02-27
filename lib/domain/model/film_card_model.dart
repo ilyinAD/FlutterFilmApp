@@ -32,7 +32,7 @@ class FilmCardModel {
       picture: json['picture'],
       description: json['description'],
       id: json['id'],
-      rating: json['rating'],
+      rating: json['rating'].toDouble(),
       status: json['status'],
     );
   }
