@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"go_backend/internal/domain"
 	"go_backend/internal/infrastructure/usecases"
 	"net/http"
@@ -74,7 +75,7 @@ func (fh *FilmHandler) GetFilms(c *gin.Context) {
 	var (
 		film domain.RequestGetFilmsModel
 	)
-
+	fmt.Println("OK")
 	if err := c.ShouldBindJSON(&film); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

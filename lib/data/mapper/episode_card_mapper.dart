@@ -4,8 +4,8 @@ import '../../utils/utils.dart';
 
 class EpisodeCardMapper {
   static EpisodeCardModel fromApi(ApiEpisodeCard episode) {
-    //String needDescription = parseHtmlString(episode.description ?? "");
-    String needDescription = episode.description ?? "";
+    String needDescription = parseHtmlString(episode.description ?? "");
+    //String needDescription = episode.description ?? "";
     return EpisodeCardModel(
         id: episode.id,
         rating: episode.rating,

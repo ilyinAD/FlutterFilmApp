@@ -6,7 +6,8 @@ class FilmListDataRepository extends FilmListRepository {
   ApiUtil apiUtil;
   FilmListDataRepository({required this.apiUtil});
   @override
-  Future<FilmListModel> getFilmList({required String search}) {
-    return apiUtil.getFilmList(search);
+  Future<FilmListModel> getFilmList(
+      {required String search, List<String> selectedGenres = const []}) {
+    return apiUtil.getFilmList(search, selectedGenres);
   }
 }

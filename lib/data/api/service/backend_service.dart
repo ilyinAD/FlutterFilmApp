@@ -77,15 +77,18 @@ class BackendManager {
       throw Exception("not id in sharepref");
     }
 
-    final data = {
-      "userID": id,
-      "id": film.id,
-      "picture": film.picture,
-      "name": film.name,
-      "rating": film.rating,
-      "description": film.description,
-      "status": film.status
-    };
+    final data = film.toJson();
+    data["user_id"] = id;
+
+    // final data = {
+    //   "userID": id,
+    //   "id": film.id,
+    //   "picture": film.picture,
+    //   "name": film.name,
+    //   "rating": film.rating,
+    //   "description": film.description,
+    //   "status": film.status
+    // };
 
     try {
       final result = await dio.post(addFilmUrl, data: data);
@@ -143,6 +146,7 @@ class BackendManager {
     };
 
     try {
+      print("Start query");
       final response = await dio.get(getFilmsUrl, data: data);
       if (response.statusCode == 200) {
         List<FilmCardModel> results = [];
@@ -161,7 +165,4 @@ class BackendManager {
       rethrow;
     }
   }
-
-  //TODO:: крч таперь надо партиции сделать то есть у каждого фильма еще
-  // хранить страницу и отображать постранично но мб пофиг типа фильмов не так уж и много хз.
 }

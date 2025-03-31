@@ -8,9 +8,11 @@ import 'package:logger/logger.dart';
 
 class ApiUtil {
   final networkingManager = NetworkingManager();
-  Future<FilmListModel> getFilmList(String search) async {
+  Future<FilmListModel> getFilmList(String search,
+      [List<String> selectedGenres = const []]) async {
     final body = GetListBody(search: search);
-    final result = await networkingManager.getFilmList(body);
+    final result = await networkingManager.getFilmList(body, selectedGenres);
+    print(FilmListMapper.fromApi(result));
     return FilmListMapper.fromApi(result);
   }
 

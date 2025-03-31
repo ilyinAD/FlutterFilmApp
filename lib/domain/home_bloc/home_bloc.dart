@@ -24,8 +24,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   _onLoaded(FilmsLoadedEvent event, Emitter<HomeState> emit) async {
-    final data = await RepositoryModule.filmListRepository()
-        .getFilmList(search: event.search);
+    final data = await RepositoryModule.filmListRepository().getFilmList(
+        search: event.search, selectedGenres: event.selectedGenres);
     emit(state.copyWith(
       isGeted: true,
       isLoading: false,

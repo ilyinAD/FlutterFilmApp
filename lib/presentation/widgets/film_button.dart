@@ -65,18 +65,19 @@ class _FilmButtonState extends State<FilmButton> {
         children: [
           Expanded(
             child: ClipRect(
-              child: widget.result.picture != null
-                  ? Image.network(
-                      widget.result.picture!,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return const CircularProgressIndicator();
-                      },
-                    )
-                  : Image.asset('assets/images/sticker.jpg'),
+              child:
+                  widget.result.picture != null && widget.result.picture != ""
+                      ? Image.network(
+                          widget.result.picture!,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        )
+                      : Image.asset('assets/images/sticker.jpg'),
             ),
           ),
           //Text(homeState.filmList.results[index].name),

@@ -4,9 +4,42 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/film_button.dart';
 
-class ListOfFilms extends StatelessWidget {
+class ListOfFilms extends StatefulWidget {
   final TextEditingController textEditingController;
-  const ListOfFilms({super.key, required this.textEditingController});
+  ListOfFilms({super.key, required this.textEditingController});
+
+  static const List<String> genres = [
+    'Action',
+    'Comedy',
+    'Drama',
+    'Fantasy',
+    'Horror',
+    'Mystery',
+    'Romance',
+    'Sci-Fi',
+    'Thriller'
+  ];
+
+  @override
+  State<ListOfFilms> createState() => _ListOfFilmsState();
+}
+
+class _ListOfFilmsState extends State<ListOfFilms> {
+  List<String> selectedGenres = [];
+
+  VoidCallback get _showGenreDialog => () async {
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Genres(
+                    selectedGenres: selectedGenres,
+                  )),
+        );
+        setState(() {
+          selectedGenres = result;
+        });
+      };
+
   @override
   Widget build(BuildContext context) {
     final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
@@ -20,8 +53,12 @@ class ListOfFilms extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: textEditingController,
+              controller: widget.textEditingController,
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: _showGenreDialog,
+                ),
                 hintText: 'Поиск по сериалам...',
                 hintStyle: TextStyle(color: Colors.grey.shade400),
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
@@ -34,8 +71,9 @@ class ListOfFilms extends StatelessWidget {
               ),
               onChanged: (text) {
                 homeBloc.add(FilmsIsNotLoaded());
-                homeBloc
-                    .add(FilmsLoadedEvent(search: textEditingController.text));
+                homeBloc.add(FilmsLoadedEvent(
+                    search: widget.textEditingController.text,
+                    selectedGenres: selectedGenres));
               },
             ),
           ),
@@ -79,3 +117,53 @@ class ListOfFilms extends StatelessWidget {
     );
   }
 }
+
+class Genres extends StatefulWidget {
+  List<String> selectedGenres;
+  Genres({super.key, required this.selectedGenres});
+
+  @override
+  State<Genres> createState() => _GenresState();
+}
+
+class _GenresState extends State<Genres> {
+  @override
+  Widget build(BuildContext context) {
+    return StatefulBuilder(
+      builder: (context, setStateDialog) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Выберите жанры'),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: ListOfFilms.genres.map((genre) {
+                return CheckboxListTile(
+                  title: Text(genre),
+                  value: widget.selectedGenres.contains(genre),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      if (value == true) {
+                        widget.selectedGenres.add(genre);
+                      } else {
+                        widget.selectedGenres.remove(genre);
+                      }
+                    });
+                    setStateDialog(() {});
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+          floatingActionButton: TextButton(
+            child: Text('OK'),
+            onPressed: () => Navigator.pop(context, widget.selectedGenres),
+          ),
+        );
+      },
+    );
+    ;
+  }
+}
+
+//TODO: крч надо передать в этот виджет блок билдер как нибудь и вызвать обновление фильма

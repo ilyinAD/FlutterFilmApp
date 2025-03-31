@@ -13,18 +13,42 @@ class NetworkingManager {
   static const searchUrl = "https://api.tvmaze.com/search/shows";
   static const searchSeasons = "https://api.tvmaze.com/shows/";
   static const searchEpisodes = "https://api.tvmaze.com/seasons/";
-  Future<ApiFilmList> getFilmList(GetListBody body) async {
+  Future<ApiFilmList> getFilmList(GetListBody body,
+      [List<String> selectedGenres = const []]) async {
     final response = await dio.get(searchUrl, queryParameters: body.toApi());
     if (response.statusCode == 200) {
       if (response.data != null) {
         List<ApiFilmCard> results = [];
         for (var i = 0; i < response.data.length; ++i) {
-          results.add(ApiFilmCard.fromJson(response.data[i]));
+          ApiFilmCard card = ApiFilmCard.fromJson(response.data[i]);
+          if (checkGenre(card.genres != null ? card.genres! : const [],
+                  selectedGenres) ==
+              true) {
+            print("OK");
+            results.add(card);
+          }
         }
         return ApiFilmList(results: results);
       }
     }
     throw Exception("Wrong url");
+  }
+
+  bool checkGenre(List<dynamic> genres, List<String> selectedGenres) {
+    print("Selected genres");
+    print(selectedGenres);
+    if (selectedGenres.isEmpty) {
+      return true;
+    }
+    for (var i = 0; i < genres.length; ++i) {
+      for (var j = 0; j < selectedGenres.length; ++j) {
+        if (genres[i].toString() == selectedGenres[j]) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   Future<ApiSeasonsList> getSeasonsList(int seriesId) async {

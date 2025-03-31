@@ -7,8 +7,8 @@ import '../../utils/utils.dart';
 
 class SeasonCardMapper {
   static SeasonCardModel fromApi(ApiSeasonCard season) {
-    //String needDescription = parseHtmlString(season.description ?? "");
-    String needDescription = season.description ?? "";
+    String needDescription = parseHtmlString(season.description ?? "");
+    //String needDescription = season.description ?? "";
     return SeasonCardModel(
         id: season.id,
         number: season.number,

@@ -10,7 +10,11 @@ class FilmCard extends StatefulWidget {
   final String? picture;
   final String? name;
   final String? description;
-  final FilmCardModel film;
+  final String? userDescription;
+  final double? userRating;
+  final int status;
+  final String? filmURL;
+  //final FilmCardModel film;
   final int id;
   //FilmCard({super.key});
   FilmCard.fromFilmCardModel({super.key, required FilmCardModel result})
@@ -18,8 +22,12 @@ class FilmCard extends StatefulWidget {
         picture = result.picture,
         name = result.name,
         description = result.description,
-        film = result,
-        id = result.id;
+        //film = result,
+        id = result.id,
+        userRating = result.userRating,
+        userDescription = result.userDescription,
+        filmURL = result.filmURL,
+        status = result.status;
 
   @override
   State<FilmCard> createState() => _FilmCardState();
@@ -55,14 +63,15 @@ class _FilmCardState extends State<FilmCard> {
     picture = widget.picture;
     description = widget.description;
     nameEditingController.text = name != null ? name! : "";
-    if (widget.film.status != untracked) {
-      descriptionEditingController.text = description ?? "";
-      ratingEditingController.text = rating != null ? rating!.toString() : "";
+    if (widget.status != untracked) {
+      descriptionEditingController.text = widget.userDescription ?? "";
+      ratingEditingController.text =
+          widget.userRating != null ? widget.userRating!.toString() : "";
     }
 
-    selectedStatus = widget.film.status == untracked
+    selectedStatus = widget.status == untracked
         ? statusOptions[0]
-        : statusOptions[widget.film.status];
+        : statusOptions[widget.status];
   }
 
   @override
@@ -139,6 +148,7 @@ class _FilmCardState extends State<FilmCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                       child: TextFormField(
+                        readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Name",
                           border: OutlineInputBorder(
@@ -205,31 +215,34 @@ class _FilmCardState extends State<FilmCard> {
           }
 
           setState(() {
-            late double? rating;
+            late double? userRating;
             if (ratingEditingController.text == "") {
-              rating = null;
+              userRating = null;
             } else {
               try {
-                rating = double.parse(ratingEditingController.text);
+                userRating = double.parse(ratingEditingController.text);
               } catch (e) {
-                rating = null;
+                userRating = null;
                 _ratingControllerErr = true;
                 return;
               }
             }
 
-            if (rating != null && (rating > 10 || rating < 0)) {
+            if (userRating != null && (userRating > 10 || userRating < 0)) {
               _ratingControllerErr = true;
               return;
             }
 
             FilmCardModel film = FilmCardModel(
                 name: nameEditingController.text,
-                rating: rating,
+                userRating: userRating,
+                rating: widget.rating,
                 id: widget.id,
-                description: descriptionEditingController.text,
+                description: widget.description,
+                userDescription: descriptionEditingController.text,
                 status: statusMap[selectedStatus] ?? 0,
-                picture: picture);
+                picture: picture,
+                filmURL: widget.filmURL);
             // TrackedFilmRepositoryModule.trackedFilmMapRepository()
             //     .addFilm(film: film);
             GeneralFilmRepositoryModule.generalFilmRepository().addFilm(film);

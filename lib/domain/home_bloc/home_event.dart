@@ -5,7 +5,8 @@ sealed class HomeEvent {}
 
 class FilmsLoadedEvent extends HomeEvent {
   final String search;
-  FilmsLoadedEvent({required this.search});
+  final List<String> selectedGenres;
+  FilmsLoadedEvent({required this.search, this.selectedGenres = const []});
 }
 
 class FilmsIsNotLoaded extends HomeEvent {}

@@ -82,6 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -110,11 +111,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkIfLogged() async {
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getInt('id');
-    //print("OK");
+    print("OK");
     if (!mounted) {
       return;
     }
-    //print("OK1");
+    print("OK1");
+    print(id);
 
     Navigator.pushReplacement(
       context,

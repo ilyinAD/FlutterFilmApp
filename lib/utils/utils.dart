@@ -10,6 +10,7 @@ import 'package:chck_smth_in_flutter/domain/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:html/parser.dart' as htmlparser;
 
 import '../internal/dependencies/backend_repository_module.dart';
 
@@ -56,4 +57,10 @@ Future<UserModel> registerOrLogin(
   } catch (e) {
     throw 'Неизвестная ошибка: $e';
   }
+}
+
+String parseHtmlString(String htmlString) {
+  final document = htmlparser.parse(htmlString);
+  final String parsedString = document.body!.text;
+  return parsedString;
 }

@@ -35,11 +35,13 @@ class _HomePageState extends State<HomePage> {
     print("START LOADING");
     backendBloc.add(BackendLoadedEvent());
     textEditingController = TextEditingController();
+    print("done bloc");
     _pages = [
       ListOfFilms(textEditingController: textEditingController),
       const TrackedListOfFilms(),
       const Settings(),
     ];
+    print("don");
   }
 
   @override
@@ -94,6 +96,8 @@ class _HomePageState extends State<HomePage> {
                         //           textEditingController: textEditingController,
                         //         ),
                         // );
+                        print("Selected index");
+                        print(_selectedIndex);
                         return _pages[_selectedIndex];
                         // return Align(
                         //   child: ListOfFilms(

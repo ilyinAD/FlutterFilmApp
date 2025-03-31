@@ -6,14 +6,16 @@ import '../../utils/utils.dart';
 
 class FilmCardMapper {
   static FilmCardModel fromApi(ApiFilmCard film) {
-    //String needDescription = parseHtmlString(film.description ?? "");
-    String needDescription = film.description ?? "";
+    String needDescription = parseHtmlString(film.description ?? "");
+    //String needDescription = film.description ?? "";
     return FilmCardModel(
         name: film.name,
         rating: film.rating,
         picture: film.picture,
         description: needDescription,
         status: untracked,
-        id: film.id);
+        id: film.id,
+        filmURL: film.filmURL,
+        genres: film.genres?.map((e) => e.toString()).toList());
   }
 }

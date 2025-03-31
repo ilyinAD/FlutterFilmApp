@@ -17,11 +17,14 @@ create table if not exists film (
 
     user_id int,
     id int,
-    picture varchar(100),
+    picture varchar(100) not null,
     name varchar(100) not null,
-    rating double precision,
-    description text,
+    rating double precision not null,
+    description text not null,
     status int not null,
+    user_description text default '',
+    user_rating double precision default null,
+    film_url text default '',
     primary key (user_id, id)
 );
 

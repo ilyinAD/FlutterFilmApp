@@ -1,11 +1,14 @@
 package domain
 
 type ResponseFilmModel struct {
-	UserID      int     `json:"userID"`
-	ID          int     `json:"id"`
-	Picture     string  `json:"picture"`
-	Name        string  `json:"name"`
-	Rating      float32 `json:"rating"`
-	Description string  `json:"description"`
-	Status      int     `json:"status"`
+	UserID          int      `json:"user_id"`
+	ID              int      `json:"id"`
+	Picture         string   `json:"picture"`
+	Name            string   `json:"name"`
+	Rating          float32  `json:"rating"`
+	Description     string   `json:"description"`
+	Status          int      `json:"status"`
+	UserDescription string   `json:"user_description"`
+	UserRating      *float64 `json:"user_rating"`
+	FilmURL         string   `json:"film_url"`
 }
