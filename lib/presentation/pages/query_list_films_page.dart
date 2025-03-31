@@ -6,18 +6,24 @@ import '../widgets/film_button.dart';
 
 class ListOfFilms extends StatefulWidget {
   final TextEditingController textEditingController;
-  ListOfFilms({super.key, required this.textEditingController});
+  const ListOfFilms({super.key, required this.textEditingController});
 
   static const List<String> genres = [
     'Action',
+    'Anime',
+    'Adventure',
     'Comedy',
+    'Crime',
+    'Science-Fiction',
     'Drama',
     'Fantasy',
     'Horror',
     'Mystery',
     'Romance',
-    'Sci-Fi',
-    'Thriller'
+    'Thriller',
+    'Food',
+    'War',
+    'Music'
   ];
 
   @override
@@ -26,7 +32,7 @@ class ListOfFilms extends StatefulWidget {
 
 class _ListOfFilmsState extends State<ListOfFilms> {
   List<String> selectedGenres = [];
-
+  late HomeBloc homeBloc;
   VoidCallback get _showGenreDialog => () async {
         final result = await Navigator.push(
           context,
@@ -37,16 +43,26 @@ class _ListOfFilmsState extends State<ListOfFilms> {
         );
         setState(() {
           selectedGenres = result;
+          homeBloc.add(FilmsIsNotLoaded());
+          homeBloc.add(FilmsLoadedEvent(
+              search: widget.textEditingController.text,
+              selectedGenres: selectedGenres));
         });
       };
 
   @override
+  void initState() {
+    super.initState();
+    homeBloc = BlocProvider.of<HomeBloc>(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
+    //final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Поиск сериала"),
+        title: const Text("Series"),
       ),
       body: Column(
         children: [
@@ -59,7 +75,7 @@ class _ListOfFilmsState extends State<ListOfFilms> {
                   icon: Icon(Icons.edit),
                   onPressed: _showGenreDialog,
                 ),
-                hintText: 'Поиск по сериалам...',
+                hintText: 'Searc series...',
                 hintStyle: TextStyle(color: Colors.grey.shade400),
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
                 filled: true,
@@ -133,31 +149,38 @@ class _GenresState extends State<Genres> {
       builder: (context, setStateDialog) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Выберите жанры'),
+            title: const Text('Choose genres'),
+            actions: [
+              TextButton(
+                child: const Text('Apply'),
+                onPressed: () => Navigator.pop(context, widget.selectedGenres),
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             child: Column(
-              children: ListOfFilms.genres.map((genre) {
-                return CheckboxListTile(
-                  title: Text(genre),
-                  value: widget.selectedGenres.contains(genre),
-                  onChanged: (bool? value) {
-                    setState(() {
-                      if (value == true) {
-                        widget.selectedGenres.add(genre);
-                      } else {
-                        widget.selectedGenres.remove(genre);
-                      }
-                    });
-                    setStateDialog(() {});
-                  },
-                );
-              }).toList(),
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  children: ListOfFilms.genres.map((genre) {
+                    return CheckboxListTile(
+                      title: Text(genre),
+                      value: widget.selectedGenres.contains(genre),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            widget.selectedGenres.add(genre);
+                          } else {
+                            widget.selectedGenres.remove(genre);
+                          }
+                        });
+                        setStateDialog(() {});
+                      },
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
-          ),
-          floatingActionButton: TextButton(
-            child: Text('OK'),
-            onPressed: () => Navigator.pop(context, widget.selectedGenres),
           ),
         );
       },

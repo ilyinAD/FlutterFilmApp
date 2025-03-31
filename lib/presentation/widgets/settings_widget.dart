@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Настройки"),
+        title: const Text("Settings"),
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -46,7 +46,7 @@ class _SettingsState extends State<Settings> {
             onPressed: () {
               _logout();
             },
-            child: const Text("Выйти"),
+            child: const Text("log out"),
           )),
           Text(id.toString()),
         ],

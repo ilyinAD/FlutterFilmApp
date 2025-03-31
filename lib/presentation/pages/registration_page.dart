@@ -44,7 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Регистрация успешна!')),
+          const SnackBar(content: Text('Registration successful!')),
         );
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
@@ -64,7 +64,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Регистрация'),
+        title: Text('Reggistration'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -75,12 +75,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Логин',
+                  labelText: 'Login',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Введите логин';
+                    return 'Enter login';
                   }
 
                   return null;
@@ -90,17 +90,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Почта',
+                  labelText: 'Mail',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Введите email';
+                    return 'Enter email';
                   } else if (!RegExp(
                           r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}")
                       .hasMatch(value)) {
-                    return 'Неверный формат email';
+                    return 'Wrong format email';
                   }
 
                   return null;
@@ -110,15 +110,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
-                  labelText: 'Пароль',
+                  labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Введите пароль';
+                    return 'Enter password';
                   } else if (value.length < 8) {
-                    return 'Пароль должен быть не менее 8 символов';
+                    return 'Password must contain at least 8 symbols';
                   }
                   return null;
                 },
@@ -126,14 +126,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () => _register(),
-                child: const Text('Зарегистрироваться'),
+                child: const Text('Register'),
               ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Уже есть аккаунт? Войдите'),
+                child: const Text('Already have an account? Login'),
               ),
             ],
           ),

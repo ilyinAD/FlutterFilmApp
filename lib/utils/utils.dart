@@ -40,22 +40,22 @@ Future<UserModel> registerOrLogin(
   } on DioException catch (e) {
     if (e.response != null) {
       final statusCode = e.response!.statusCode;
-      final errorMessage = e.response!.data['error'] ?? 'Неизвестная ошибка';
+      final errorMessage = e.response!.data['error'] ?? 'Unknown error';
       switch (statusCode) {
         case 400:
-          throw 'Ошибка: $errorMessage';
+          throw 'Error: $errorMessage';
         case 401:
           throw '$errorMessage';
         case 500:
-          throw 'Ошибка сети';
+          throw 'Network error';
         default:
-          throw 'Ошибка: $errorMessage';
+          throw 'Error: $errorMessage';
       }
     } else {
-      throw 'Ошибка сети: $e';
+      throw 'Network error: $e';
     }
   } catch (e) {
-    throw 'Неизвестная ошибка: $e';
+    throw 'Unknown error: $e';
   }
 }
 

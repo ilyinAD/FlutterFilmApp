@@ -15,7 +15,7 @@ class _QueryFilmWidgetState extends State<QueryFilmWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Информация о фильме'),
+          title: const Text('Series information'),
         ),
         //body: FilmInfo.fromFilmCardModel(result: widget.film)
         body: Column(

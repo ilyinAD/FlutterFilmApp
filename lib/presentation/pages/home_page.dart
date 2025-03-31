@@ -112,15 +112,15 @@ class _HomePageState extends State<HomePage> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Поиск',
+              label: 'Search',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.business),
-              label: 'Список фильмов',
+              label: 'Series list',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              label: "Настройки",
+              label: "Settings",
             )
           ],
         ),

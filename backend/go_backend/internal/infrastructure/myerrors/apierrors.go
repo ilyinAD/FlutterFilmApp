@@ -17,3 +17,10 @@ type ErrWrongPass struct {
 func (e ErrWrongPass) Error() string {
 	return fmt.Sprintf("Wrong password for user: %s", e.Msg)
 }
+
+type ErrWrongPassOrNoUser struct {
+}
+
+func (e ErrWrongPassOrNoUser) Error() string {
+	return fmt.Sprintf("Wrong password or wrong login")
+}

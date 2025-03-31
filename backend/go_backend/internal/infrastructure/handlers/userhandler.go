@@ -54,13 +54,10 @@ func (uh *UserHandler) LoginUser(c *gin.Context) {
 	returnedUser, err := uh.userUseCase.LoginUser(&user)
 	if err != nil {
 		var (
-			errNoUser    myerrors.ErrNoUser
-			errWrongPass myerrors.ErrWrongPass
+			myErr myerrors.ErrWrongPassOrNoUser
 		)
 
-		if errors.As(err, &errNoUser) {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-		} else if errors.As(err, &errWrongPass) {
+		if errors.As(err, &myErr) {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

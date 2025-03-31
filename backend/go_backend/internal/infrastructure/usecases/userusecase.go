@@ -34,7 +34,7 @@ func (uc *UserUseCase) LoginUser(user *domain.RequestUserModel) (*domain.Respons
 	returnedUser, err := uc.userRepository.GetUserByLogin(user.Username)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
-			return nil, myerrors.ErrNoUser{Msg: user.Username}
+			return nil, myerrors.ErrWrongPassOrNoUser{}
 		} else {
 			return nil, fmt.Errorf("error while logging in: %v", err)
 		}
@@ -42,7 +42,7 @@ func (uc *UserUseCase) LoginUser(user *domain.RequestUserModel) (*domain.Respons
 
 	err = bcrypt.CompareHashAndPassword([]byte(returnedUser.Password), []byte(user.Password))
 	if err != nil {
-		return nil, myerrors.ErrWrongPass{Msg: returnedUser.Username}
+		return nil, myerrors.ErrWrongPassOrNoUser{}
 	}
 
 	return returnedUser, nil

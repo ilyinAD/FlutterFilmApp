@@ -42,15 +42,15 @@ class _FilmCardState extends State<FilmCard> {
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
   final List<String> statusOptions = [
-    'Просмотрено',
-    'В процессе просмотра',
-    'Хочу посмотреть',
+    'Viewed',
+    'In process',
+    'Wanna watch',
   ];
 
   final Map<String, int> statusMap = {
-    "Просмотрено": 0,
-    "В процессе просмотра": 1,
-    "Хочу посмотреть": 2
+    "Viewed": 0,
+    "In process": 1,
+    "Wanna watch": 2
   };
 
   String? selectedStatus;
@@ -126,7 +126,7 @@ class _FilmCardState extends State<FilmCard> {
                       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          labelText: 'Статус фильма',
+                          labelText: 'Series status',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -164,7 +164,7 @@ class _FilmCardState extends State<FilmCard> {
                       child: TextFormField(
                         decoration: InputDecoration(
                           errorText: _ratingControllerErr
-                              ? "Рейтинг это число от 0 до 10"
+                              ? "Rating is a number between 0 and 10"
                               : null,
                           labelText: "Rating",
                           border: OutlineInputBorder(
@@ -249,7 +249,7 @@ class _FilmCardState extends State<FilmCard> {
             Navigator.pop(context, film);
           });
         },
-        label: const Text("Сохранить"),
+        label: const Text("Save"),
         //child: const Text("Сохранить"),
       ),
     );

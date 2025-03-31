@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Регистрация успешна!')),
+          const SnackBar(content: Text('Authorization successful!')),
         );
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Вход'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Логин',
+                  labelText: 'Login',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
-                  labelText: 'Пароль',
+                  labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
@@ -86,14 +86,14 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () => _login(),
-                child: const Text('Войти'),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/registration');
                 },
-                child: const Text('Еще нет аккаунта? Зарегистрируйтесь'),
+                child: const Text('No account? Register right now'),
               ),
             ],
           ),

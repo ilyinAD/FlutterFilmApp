@@ -21,15 +21,15 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
   final Map<int, List<FilmCardModel>> _groupedFilms = {};
   int sortedFilter = 0;
   final List<String> filterOptions = [
-    'Без фильтра',
-    'По возрастанию рейтинга',
-    'По убыванию рейтинга',
+    'Without filter',
+    'In ascending of rating',
+    'In descending of rating',
   ];
 
   final Map<String, int> filterMap = {
-    "Без фильтра": 0,
-    "По возрастанию рейтинга": 1,
-    "По убыванию рейтинга": 2
+    "Without filter": 0,
+    "In ascending of rating": 1,
+    "In descending of rating": 2
   };
 
   void clearGroupedFilms() {
@@ -100,7 +100,7 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text("Отмеченные сериалы"),
+          title: Text("Marked series"),
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
@@ -131,7 +131,7 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
               child: TextField(
                 controller: queryEditingController,
                 decoration: InputDecoration(
-                  hintText: 'Поиск по отмеченным сериалам...',
+                  hintText: 'Search on marked series...',
                   hintStyle: TextStyle(color: Colors.grey.shade400),
                   prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
                   filled: true,
@@ -159,7 +159,7 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
               child: DropdownButtonFormField<String>(
                 focusNode: _focusNode,
                 decoration: InputDecoration(
-                  labelText: 'Фильтр',
+                  labelText: 'Filter',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -186,9 +186,9 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
             TabBar(
               controller: _tabController,
               tabs: const <Widget>[
-                Tab(text: 'Просмотренные'),
-                Tab(text: 'В процессе'),
-                Tab(text: 'Хочу посмотреть'),
+                Tab(text: 'viewed'),
+                Tab(text: 'In process'),
+                Tab(text: 'Wanna watch'),
               ],
             ),
             Expanded(

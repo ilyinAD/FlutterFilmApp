@@ -55,7 +55,7 @@ class _TrackedFilmWidgetState extends State<TrackedFilmWidget> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Информация о фильме'),
+          title: const Text('Series information'),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
