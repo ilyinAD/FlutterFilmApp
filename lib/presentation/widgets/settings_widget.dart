@@ -35,10 +35,10 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-        automaticallyImplyLeading: false,
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Settings"),
+      //   automaticallyImplyLeading: false,
+      // ),
       body: Column(
         children: [
           Center(

@@ -1,6 +1,8 @@
 import 'package:chck_smth_in_flutter/domain/home_bloc/home_bloc.dart';
+import 'package:chck_smth_in_flutter/presentation/widgets/main_navigation_panel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 
 import '../widgets/film_button.dart';
 
@@ -56,14 +58,16 @@ class _ListOfFilmsState extends State<ListOfFilms> {
     homeBloc = BlocProvider.of<HomeBloc>(context);
   }
 
+  Logger logger = Logger();
+
   @override
   Widget build(BuildContext context) {
     //final HomeBloc homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Series"),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: const Text("Series"),
+      // ),
       body: Column(
         children: [
           Padding(

@@ -2,17 +2,23 @@ import 'package:chck_smth_in_flutter/data/api/model/api_episodes_card.dart';
 import 'package:chck_smth_in_flutter/data/api/model/api_film_card.dart';
 import 'package:chck_smth_in_flutter/data/api/model/api_seasons_list.dart';
 import 'package:chck_smth_in_flutter/data/api/request/get_list_body.dart';
+import 'package:chck_smth_in_flutter/data/api/request/get_updates_body.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
+import '../../../domain/model/updates_type_enum.dart';
 import '../model/api_film_list.dart';
 
 class NetworkingManager {
   Dio dio = Dio();
   final logger = Logger();
-  static const searchUrl = "https://api.tvmaze.com/search/shows";
-  static const searchSeasons = "https://api.tvmaze.com/shows/";
-  static const searchEpisodes = "https://api.tvmaze.com/seasons/";
+  static const baseURL = "https://api.tvmaze.com/";
+  static const searchUrl = "${baseURL}search/shows";
+  static const searchSeasons = "${baseURL}shows/";
+  static const searchEpisodes = "${baseURL}seasons/";
+  static const searchUpdates = "${baseURL}updates/shows";
+  static const searchShowByID = "${baseURL}shows/";
+  static const limit = 50;
   Future<ApiFilmList> getFilmList(GetListBody body,
       [List<String> selectedGenres = const []]) async {
     final response = await dio.get(searchUrl, queryParameters: body.toApi());
@@ -49,6 +55,39 @@ class NetworkingManager {
     }
 
     return false;
+  }
+
+  Future<ApiFilmList> getUpdates(GetUpdatesBody body) async {
+    final response =
+        await dio.get(searchUpdates, queryParameters: body.toAPI());
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        List<ApiFilmCard> results = [];
+        int cnt = 0;
+        for (var entry in response.data.entries) {
+          if (cnt >= limit) {
+            break;
+          }
+
+          ++cnt;
+
+          final filmResponse = await dio.get("$searchShowByID${entry.key}");
+          if (filmResponse.statusCode != 200) {
+            throw Exception("wrong url");
+          }
+
+          if (filmResponse.data == null) {
+            throw Exception("empty body");
+          }
+
+          results.add(filmResponse.data);
+        }
+
+        return ApiFilmList(results: results);
+      }
+    }
+
+    throw Exception("Wrong URL");
   }
 
   Future<ApiSeasonsList> getSeasonsList(int seriesId) async {

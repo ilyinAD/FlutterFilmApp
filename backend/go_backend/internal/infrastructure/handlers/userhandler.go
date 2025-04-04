@@ -32,6 +32,11 @@ func (uh *UserHandler) RegisterUser(c *gin.Context) {
 
 	returnedUser, err := uh.userUseCase.RegisterUser(&user)
 	if err != nil {
+		var myErr myerrors.ErrExists
+		if errors.As(err, &myErr) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": myErr.Error()})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 
 		return

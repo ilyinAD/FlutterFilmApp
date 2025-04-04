@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
     _pages = [
       ListOfFilms(textEditingController: textEditingController),
       const TrackedListOfFilms(),
-      const Settings(),
     ];
     print("don");
   }
@@ -79,6 +78,7 @@ class _HomePageState extends State<HomePage> {
         //     },
         //     tooltip: "update",
         //     child: Icon(Icons.update)),
+        //appBar: AppBar(),
         body: BlocBuilder<BackendBloc, BackendState>(
             bloc: backendBloc,
             builder: (context, state) {
@@ -118,10 +118,10 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.business),
               label: 'Series list',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
-            )
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.settings),
+            //   label: "Settings",
+            // )
           ],
         ),
       ),

@@ -64,7 +64,7 @@ func (fr *FilmRepository) UpdateFilm(film *domain.RequestFilmModel) (*domain.Res
 	)
 
 	err := fr.db.QueryRow(`update film set user_id = $1, picture = $2, name = $3, rating = $4, description = $5, status = $6,
-               user_description = $7, user_rating = $8, film_url = $9 where id = $10 and user_id = $10 returning user_id, id,
+               user_description = $7, user_rating = $8, film_url = $9 where id = $10 and user_id = $11 returning user_id, id,
                    picture, name, rating, description, status, user_description, user_rating, film_url
       `, film.UserID, film.Picture, film.Name, film.Rating, film.Description, film.Status, film.UserDescription, film.UserRating, film.FilmURL, film.ID, film.UserID).Scan(
 		&returnedFilm.UserID, &returnedFilm.ID, &returnedFilm.Picture, &returnedFilm.Name, &returnedFilm.Rating,

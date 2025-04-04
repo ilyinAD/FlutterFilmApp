@@ -43,10 +43,10 @@ class _LoginPageState extends State<LoginPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Authorization successful!')),
         );
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+        Navigator.pushNamed(context, '/home');
       }
     } catch (e) {
+      logger.e(e.toString());
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.toString())),

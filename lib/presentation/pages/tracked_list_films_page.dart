@@ -1,5 +1,6 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:chck_smth_in_flutter/domain/repository/tracked_film_map_repository.dart';
+import 'package:chck_smth_in_flutter/presentation/widgets/main_navigation_panel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

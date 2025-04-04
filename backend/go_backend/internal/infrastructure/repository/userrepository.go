@@ -40,3 +40,13 @@ func (ur *UserRepository) GetUserByLogin(username string) (*domain.ResponseUserM
 
 	return &returnedUser, nil
 }
+
+func (ur *UserRepository) GetUserByEmail(email string) (*domain.ResponseUserModel, error) {
+	var returnedUser domain.ResponseUserModel
+	err := ur.db.QueryRow("SELECT id, username, password, email FROM users WHERE email = $1", email).Scan(&returnedUser.ID, &returnedUser.Username, &returnedUser.Password, &returnedUser.Email)
+	if err != nil {
+		return nil, fmt.Errorf("db: query: %w", err)
+	}
+
+	return &returnedUser, nil
+}

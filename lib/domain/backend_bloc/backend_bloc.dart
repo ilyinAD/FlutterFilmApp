@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/general_film_repository_module.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,14 +15,15 @@ class BackendBloc extends Bloc<BackendEvent, BackendState> {
   }
 
   _onLoaded(BackendLoadedEvent event, Emitter<BackendState> emit) async {
-    TrackedFilmRepositoryModule.trackedFilmMapRepository().films = {};
-    final prefs = await SharedPreferences.getInstance();
-    final data = await BackendRepositoryModule.backendManager()
-        .getFilms(prefs.getInt('id')!);
-    for (var i = 0; i < data.length; ++i) {
-      TrackedFilmRepositoryModule.trackedFilmMapRepository()
-          .addFilm(film: data[i]);
-    }
+    // TrackedFilmRepositoryModule.trackedFilmMapRepository().films = {};
+    // final prefs = await SharedPreferences.getInstance();
+    // final data = await BackendRepositoryModule.backendManager()
+    //     .getFilms(prefs.getInt('id')!);
+    // for (var i = 0; i < data.length; ++i) {
+    //   TrackedFilmRepositoryModule.trackedFilmMapRepository()
+    //       .addFilm(film: data[i]);
+    // }
+    GeneralFilmRepositoryModule.generalFilmRepository().getFilms();
     print("END LOADING");
     emit(state.copyWith(isLoading: false));
   }

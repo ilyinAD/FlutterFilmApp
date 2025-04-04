@@ -1,13 +1,18 @@
+import 'package:chck_smth_in_flutter/data/api/service/backend_service.dart';
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
-import 'package:chck_smth_in_flutter/internal/dependencies/backend_repository_module.dart';
-import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../domain/repository/tracked_film_map_repository.dart';
 
 class GeneralFilmRepository {
+  BackendManager backendManager;
+  TrackedFilmMapRepository trackedFilmMapRepository;
+  GeneralFilmRepository(
+      {required this.backendManager, required this.trackedFilmMapRepository});
   void addFilm(FilmCardModel film) {
     try {
-      BackendRepositoryModule.backendManager().addFilm(film);
-      TrackedFilmRepositoryModule.trackedFilmMapRepository()
-          .addFilm(film: film);
+      backendManager.addFilm(film);
+      trackedFilmMapRepository.addFilm(film: film);
     } catch (e) {
       rethrow;
     }
@@ -15,11 +20,19 @@ class GeneralFilmRepository {
 
   void deleteFilm(FilmCardModel film) {
     try {
-      BackendRepositoryModule.backendManager().deleteFilm(film.id);
-      TrackedFilmRepositoryModule.trackedFilmMapRepository()
-          .deleteFilm(film: film);
+      backendManager.deleteFilm(film.id);
+      trackedFilmMapRepository.deleteFilm(film: film);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  void getFilms() async {
+    trackedFilmMapRepository.films = {};
+    final prefs = await SharedPreferences.getInstance();
+    final data = await backendManager.getFilms(prefs.getInt('id')!);
+    for (var i = 0; i < data.length; ++i) {
+      trackedFilmMapRepository.addFilm(film: data[i]);
     }
   }
 }

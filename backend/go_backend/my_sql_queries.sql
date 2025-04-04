@@ -15,7 +15,7 @@ select users.id from users where username = 'q' and password = '1111111qq';
 
 create table if not exists film (
 
-    user_id int,
+    user_id int references users(id) on delete  cascade,
     id int,
     picture varchar(100) not null,
     name varchar(100) not null,

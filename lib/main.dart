@@ -5,6 +5,7 @@ import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_reposito
 import 'package:chck_smth_in_flutter/presentation/pages/home_page.dart';
 import 'package:chck_smth_in_flutter/presentation/pages/login_page.dart';
 import 'package:chck_smth_in_flutter/presentation/pages/registration_page.dart';
+import 'package:chck_smth_in_flutter/presentation/widgets/main_navigation_panel_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -92,6 +93,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routes: {
         '/login': (context) => const LoginPage(),
         '/registration': (context) => const RegistrationPage(),
+        '/home': (context) => const MainScreen(),
       },
       //home: Placeholder(),
     );
@@ -121,7 +123,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => id != null ? const HomePage() : const LoginPage(),
+        builder: (context) =>
+            id != null ? const MainScreen() : const LoginPage(),
       ),
     );
   }

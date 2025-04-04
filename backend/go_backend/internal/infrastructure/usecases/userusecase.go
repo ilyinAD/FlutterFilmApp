@@ -20,6 +20,14 @@ func NewUserUseCase(userRepository *repository.UserRepository) *UserUseCase {
 }
 
 func (uc *UserUseCase) RegisterUser(user *domain.RequestUserModel) (*domain.ResponseUserModel, error) {
+	if res, _ := uc.userRepository.GetUserByLogin(user.Username); res != nil {
+		return nil, myerrors.ErrExists{Msg: "login"}
+	}
+
+	if res, _ := uc.userRepository.GetUserByEmail(user.Email); res != nil {
+		return nil, myerrors.ErrExists{Msg: "email"}
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, fmt.Errorf("error while hashing password: %v", err)

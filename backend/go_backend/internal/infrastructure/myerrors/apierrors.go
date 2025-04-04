@@ -24,3 +24,11 @@ type ErrWrongPassOrNoUser struct {
 func (e ErrWrongPassOrNoUser) Error() string {
 	return fmt.Sprintf("Wrong password or wrong login")
 }
+
+type ErrExists struct {
+	Msg string
+}
+
+func (e ErrExists) Error() string {
+	return fmt.Sprintf("this %s already exists", e.Msg)
+}

@@ -7,6 +7,7 @@
 
 import 'package:chck_smth_in_flutter/constants/constants.dart';
 import 'package:chck_smth_in_flutter/domain/model/user_model.dart';
+import 'package:chck_smth_in_flutter/internal/dependencies/user_repository_module.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,10 +24,10 @@ Future<UserModel> registerOrLogin(
   try {
     late UserModel result;
     if (query == "register") {
-      result = await BackendRepositoryModule.backendManager()
+      result = await UserRepositoryModule.userRepositoryModule()
           .register(username, password, email ?? "");
     } else {
-      result = await BackendRepositoryModule.backendManager().login(
+      result = await UserRepositoryModule.userRepositoryModule().login(
         username,
         password,
       );
@@ -45,6 +46,7 @@ Future<UserModel> registerOrLogin(
         case 400:
           throw 'Error: $errorMessage';
         case 401:
+          print(401);
           throw '$errorMessage';
         case 500:
           throw 'Network error';
