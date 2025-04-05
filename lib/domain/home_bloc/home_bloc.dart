@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:chck_smth_in_flutter/internal/dependencies/repository_module.dart';
 import 'package:meta/meta.dart';
 import '../model/film_list_model.dart';
+import '../updates_bloc/updates_bloc.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

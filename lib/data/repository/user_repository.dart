@@ -13,4 +13,8 @@ class UserRepository {
   Future<UserModel> login(String username, String password) async {
     return backendManager.login(username, password);
   }
+
+  Future<UserModel> getUser(int id) async {
+    return backendManager.getUserInfo(id);
+  }
 }

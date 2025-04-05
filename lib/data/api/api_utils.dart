@@ -23,9 +23,11 @@ class ApiUtil {
     return SeasonsListMapper.fromApi(result);
   }
 
-  Future<FilmListModel> getUpdates(UpdatesType name) async {
-    final body = GetUpdatesBody(name: name);
-    final result = await networkingManager.getUpdates(body);
+  Future<FilmListModel> getUpdates(
+      UpdatesType name, int pageNumber, int partNumber,
+      [List<String> selectedGenres = const []]) async {
+    final result = await networkingManager.getUpdates(
+        name, pageNumber, partNumber, selectedGenres);
     return FilmListMapper.fromApi(result);
   }
 }

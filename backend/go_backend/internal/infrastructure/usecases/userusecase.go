@@ -55,3 +55,7 @@ func (uc *UserUseCase) LoginUser(user *domain.RequestUserModel) (*domain.Respons
 
 	return returnedUser, nil
 }
+
+func (uc *UserUseCase) GetUser(id int) (*domain.ResponseUserModel, error) {
+	return uc.userRepository.GetUserByID(id)
+}

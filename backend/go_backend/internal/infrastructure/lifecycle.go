@@ -34,6 +34,7 @@ func NewEngine(handlers *handlers.Handlers) *gin.Engine {
 	r.DELETE("/deleteFilm", handlers.FilmHandler.DeleteFilm)
 	r.GET("/getFilm", handlers.FilmHandler.GetFilm)
 	r.GET("/getFilms", handlers.FilmHandler.GetFilms)
+	r.GET("/getUser", handlers.UserHandler.GetUser)
 
 	return r
 }

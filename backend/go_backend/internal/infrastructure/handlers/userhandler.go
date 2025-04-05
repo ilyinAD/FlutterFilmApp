@@ -73,3 +73,22 @@ func (uh *UserHandler) LoginUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, returnedUser)
 }
+
+func (uh *UserHandler) GetUser(c *gin.Context) {
+	var (
+		user         domain.RequestGetUserModel
+		returnedUser *domain.ResponseUserModel
+	)
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	returnedUser, err := uh.userUseCase.GetUser(user.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, returnedUser)
+}

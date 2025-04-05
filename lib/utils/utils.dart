@@ -66,3 +66,24 @@ String parseHtmlString(String htmlString) {
   final String parsedString = document.body!.text;
   return parsedString;
 }
+
+class Pair<A, B> {
+  final A first;
+  final B second;
+
+  const Pair(this.first, this.second);
+
+  @override
+  String toString() => 'Pair($first, $second)';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Pair &&
+          runtimeType == other.runtimeType &&
+          first == other.first &&
+          second == other.second;
+
+  @override
+  int get hashCode => first.hashCode ^ second.hashCode;
+}

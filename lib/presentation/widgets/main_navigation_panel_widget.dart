@@ -1,4 +1,5 @@
 import 'package:chck_smth_in_flutter/presentation/pages/home_page.dart';
+import 'package:chck_smth_in_flutter/presentation/pages/list_updated_films_page.dart';
 import 'package:chck_smth_in_flutter/presentation/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,10 @@ class _MainScreenState extends State<MainScreen> {
         page = HomePage();
         break;
       case 1:
-        page = Settings();
+        page = UpdatedFilms();
         break;
+      case 2:
+        page = Settings();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -29,11 +32,7 @@ class _MainScreenState extends State<MainScreen> {
       return OrientationBuilder(builder: (context, orientation) {
         return Scaffold(
           appBar: AppBar(
-            // leading: IconButton(
-            //   onPressed: () {},
-            //   icon: Icon(Icons.arrow_back),
-            // ),
-            title: Text("SerialTracker"),
+            title: const Text("SerialTracker"),
           ),
           drawer: Drawer(
             child: Row(
@@ -46,6 +45,10 @@ class _MainScreenState extends State<MainScreen> {
                       NavigationRailDestination(
                         icon: Icon(Icons.home),
                         label: Text('Home'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.update),
+                        label: Text('Updates'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.settings),

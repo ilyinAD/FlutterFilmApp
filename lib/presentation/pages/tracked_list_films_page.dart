@@ -99,32 +99,32 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text("Marked series"),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FilmCard.fromFilmCardModel(
-                      result: FilmCardModel(
-                          name: "",
-                          rating: null,
-                          id: -TrackedFilmRepositoryModule
-                                  .trackedFilmMapRepository()
-                              .films
-                              .length),
-                    ),
-                  ),
-                );
-                update(query: queryEditingController.text);
-              },
-            ),
-          ],
-        ),
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   title: Text("Marked series"),
+        //   actions: [
+        //     IconButton(
+        //       icon: const Icon(Icons.add),
+        //       onPressed: () async {
+        //         final result = await Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //             builder: (context) => FilmCard.fromFilmCardModel(
+        //               result: FilmCardModel(
+        //                   name: "",
+        //                   rating: null,
+        //                   id: -TrackedFilmRepositoryModule
+        //                           .trackedFilmMapRepository()
+        //                       .films
+        //                       .length),
+        //             ),
+        //           ),
+        //         );
+        //         update(query: queryEditingController.text);
+        //       },
+        //     ),
+        //   ],
+        // ),
         body: Column(
           children: [
             Padding(
@@ -141,11 +141,32 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear, color: Colors.grey.shade600),
-                    onPressed: () {
-                      queryEditingController.text = "";
-                      update();
+                  suffixIcon:
+                      // IconButton(
+                      //   icon: Icon(Icons.clear, color: Colors.grey.shade600),
+                      //   onPressed: () {
+                      //     queryEditingController.text = "";
+                      //     update();
+                      //   },
+                      // ),
+                      IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FilmCard.fromFilmCardModel(
+                            result: FilmCardModel(
+                                name: "",
+                                rating: null,
+                                id: -TrackedFilmRepositoryModule
+                                        .trackedFilmMapRepository()
+                                    .films
+                                    .length),
+                          ),
+                        ),
+                      );
+                      update(query: queryEditingController.text);
                     },
                   ),
                 ),

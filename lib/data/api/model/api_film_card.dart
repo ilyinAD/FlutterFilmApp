@@ -18,17 +18,15 @@ class ApiFilmCard {
       required this.genres});
 
   ApiFilmCard.fromJson(Map<String, dynamic> json)
-      : name = json["show"]["name"],
-        rating = json["show"]["rating"] != null
-            ? double.tryParse(json["show"]["rating"]["average"].toString())
+      : name = json["name"],
+        rating = json["rating"] != null
+            ? double.tryParse(json["rating"]["average"].toString())
             : null,
-        picture = json["show"]["image"] != null
-            ? json["show"]["image"]["medium"]
-            : null,
-        description = json["show"]["summary"],
-        id = json["show"]["id"],
-        filmURL = json["show"]["url"],
-        genres = json["show"]["genres"];
+        picture = json["image"] != null ? json["image"]["medium"] : null,
+        description = json["summary"],
+        id = json["id"],
+        filmURL = json["url"],
+        genres = json["genres"];
 }
 
 // String getName(Map<String, dynamic> json) {

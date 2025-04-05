@@ -9,12 +9,14 @@ class BackendManager {
   Dio dio = Dio();
 
   final logger = Logger();
-  final String registerUrl = 'http://192.168.1.55:8080/register';
-  final String loginUrl = 'http://192.168.1.55:8080/login';
-  final String addFilmUrl = 'http://192.168.1.55:8080/addFilm';
-  final String delFilmUrl = 'http://192.168.1.55:8080/deleteFilm';
-  final String getFilmUrl = 'http://192.168.1.55:8080/getFilm';
-  final String getFilmsUrl = 'http://192.168.1.55:8080/getFilms';
+  static const host = "192.168.1.55";
+  final String registerUrl = 'http://$host:8080/register';
+  final String loginUrl = 'http://$host:8080/login';
+  final String addFilmUrl = 'http://$host:8080/addFilm';
+  final String delFilmUrl = 'http://$host:8080/deleteFilm';
+  final String getFilmUrl = 'http://$host:8080/getFilm';
+  final String getFilmsUrl = 'http://$host:8080/getFilms';
+  final String getUser = 'http://$host:8080/getUser';
   Future<UserModel> register(
       String username, String password, String email) async {
     final data = {
@@ -158,6 +160,27 @@ class BackendManager {
         }
 
         return results;
+      }
+      throw Exception("status code isn't 200");
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<UserModel> getUserInfo(int userID) async {
+    final data = {
+      "user_id": userID,
+    };
+
+    try {
+      final response = await dio.get(getUser, data: data);
+      if (response.statusCode == 200) {
+        if (response.data == null) {
+          throw Exception("no user found");
+        }
+
+        return UserModel.fromJson(response.data);
       }
       throw Exception("status code isn't 200");
     } catch (e) {
