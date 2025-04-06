@@ -12,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:html/parser.dart' as htmlparser;
+import 'package:string_similarity/string_similarity.dart';
 
 import '../internal/dependencies/backend_repository_module.dart';
 
@@ -86,4 +87,21 @@ class Pair<A, B> {
 
   @override
   int get hashCode => first.hashCode ^ second.hashCode;
+}
+
+bool isMovieMatch(String movieTitle, String userQuery,
+    {double threshold = 0.7}) {
+  final title = movieTitle.toLowerCase().trim();
+  final query = userQuery.toLowerCase().trim();
+
+  if (title.contains(query) || query.contains(title)) {
+    return true;
+  }
+
+  final similarityScore = title.similarityTo(query);
+  if (similarityScore >= threshold) {
+    return true;
+  }
+
+  return false;
 }

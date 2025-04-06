@@ -9,25 +9,26 @@ class GeneralFilmRepository {
   TrackedFilmMapRepository trackedFilmMapRepository;
   GeneralFilmRepository(
       {required this.backendManager, required this.trackedFilmMapRepository});
-  void addFilm(FilmCardModel film) {
+  Future<void> addFilm(FilmCardModel film) async {
     try {
-      backendManager.addFilm(film);
+      await backendManager.addFilm(film);
+      print("no ok");
       trackedFilmMapRepository.addFilm(film: film);
     } catch (e) {
       rethrow;
     }
   }
 
-  void deleteFilm(FilmCardModel film) {
+  Future<void> deleteFilm(FilmCardModel film) async {
     try {
-      backendManager.deleteFilm(film.id);
+      await backendManager.deleteFilm(film.id);
       trackedFilmMapRepository.deleteFilm(film: film);
     } catch (e) {
       rethrow;
     }
   }
 
-  void getFilms() async {
+  Future<void> getFilms() async {
     trackedFilmMapRepository.films = {};
     final prefs = await SharedPreferences.getInstance();
     final data = await backendManager.getFilms(prefs.getInt('id')!);

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"go_backend/internal/domain"
+	"go_backend/internal/domain/usermodel"
 	"go_backend/internal/infrastructure/myerrors"
 	"go_backend/internal/infrastructure/repository"
 
@@ -19,7 +19,7 @@ func NewUserUseCase(userRepository *repository.UserRepository) *UserUseCase {
 	return &UserUseCase{userRepository: userRepository}
 }
 
-func (uc *UserUseCase) RegisterUser(user *domain.RequestUserModel) (*domain.ResponseUserModel, error) {
+func (uc *UserUseCase) RegisterUser(user *usermodel.RequestUserModel) (*usermodel.ResponseUserModel, error) {
 	if res, _ := uc.userRepository.GetUserByLogin(user.Username); res != nil {
 		return nil, myerrors.ErrExists{Msg: "login"}
 	}
@@ -38,7 +38,7 @@ func (uc *UserUseCase) RegisterUser(user *domain.RequestUserModel) (*domain.Resp
 	return uc.userRepository.AddUser(user)
 }
 
-func (uc *UserUseCase) LoginUser(user *domain.RequestUserModel) (*domain.ResponseUserModel, error) {
+func (uc *UserUseCase) LoginUser(user *usermodel.RequestUserModel) (*usermodel.ResponseUserModel, error) {
 	returnedUser, err := uc.userRepository.GetUserByLogin(user.Username)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
@@ -56,6 +56,6 @@ func (uc *UserUseCase) LoginUser(user *domain.RequestUserModel) (*domain.Respons
 	return returnedUser, nil
 }
 
-func (uc *UserUseCase) GetUser(id int) (*domain.ResponseUserModel, error) {
+func (uc *UserUseCase) GetUser(id int) (*usermodel.ResponseUserModel, error) {
 	return uc.userRepository.GetUserByID(id)
 }

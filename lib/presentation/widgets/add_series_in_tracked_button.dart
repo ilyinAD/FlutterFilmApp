@@ -1,12 +1,14 @@
 import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../pages/add_card_page.dart';
 
 class AddSeriesButton extends StatelessWidget {
   final FilmCardModel film;
+  Logger logger = Logger();
   final VoidCallback? onUpdate;
-  const AddSeriesButton({super.key, required this.film, this.onUpdate});
+  AddSeriesButton({super.key, required this.film, this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class AddSeriesButton extends StatelessWidget {
                       )),
             );
             if (onUpdate != null) {
+              logger.i("add series button: call onupdate");
               onUpdate!();
             }
             // if (result != null) {

@@ -42,6 +42,8 @@ dependencies:
   postgres: ^3.4.8
   html: ^0.15.5
   url_launcher: ^6.3.1
+  intl: ^0.20.2
+  string_similarity: ^2.1.1
   #html: ^0.15.0
   #wakelock: any
   #wakelock_windows: ^0.2.0

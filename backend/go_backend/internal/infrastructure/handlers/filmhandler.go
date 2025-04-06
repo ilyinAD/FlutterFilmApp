@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"go_backend/internal/domain"
+	"go_backend/internal/domain/userfilminfomodel"
 	"go_backend/internal/infrastructure/usecases"
 	"net/http"
 
@@ -19,8 +20,7 @@ func NewFilmHandler(filmUseCase *usecases.FilmUseCases) *FilmHandler {
 
 func (fh *FilmHandler) AddFilm(c *gin.Context) {
 	var (
-		film         domain.RequestFilmModel
-		returnedFilm *domain.ResponseFilmModel
+		film domain.RequestGetUnionModel
 	)
 
 	if err := c.ShouldBindJSON(&film); err != nil {
@@ -34,11 +34,11 @@ func (fh *FilmHandler) AddFilm(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, returnedFilm)
+	c.JSON(http.StatusOK, returnedFilm)
 }
 
 func (fh *FilmHandler) DeleteFilm(c *gin.Context) {
-	var film *domain.RequestDeleteFilmModel
+	var film *userfilminfomodel.RequestDeleteInfoModel
 
 	if err := c.ShouldBindJSON(&film); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -55,7 +55,7 @@ func (fh *FilmHandler) DeleteFilm(c *gin.Context) {
 }
 
 func (fh *FilmHandler) GetFilm(c *gin.Context) {
-	var film domain.RequestGetFilmModel
+	var film userfilminfomodel.RequestGetUserInfoModel
 
 	if err := c.ShouldBindJSON(&film); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -73,7 +73,7 @@ func (fh *FilmHandler) GetFilm(c *gin.Context) {
 
 func (fh *FilmHandler) GetFilms(c *gin.Context) {
 	var (
-		film domain.RequestGetFilmsModel
+		film userfilminfomodel.RequestGetUserInfoModels
 	)
 	fmt.Println("OK")
 	if err := c.ShouldBindJSON(&film); err != nil {

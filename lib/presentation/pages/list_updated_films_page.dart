@@ -27,6 +27,7 @@ class _UpdatedFilmsState extends State<UpdatedFilms> {
         setState(() {
           selectedGenres = result;
           currentPage = 1;
+          currentPart = 1;
           _findUpdates();
         });
       };
@@ -99,6 +100,7 @@ class _UpdatedFilmsState extends State<UpdatedFilms> {
                   setState(() {
                     updatesType = newValue!;
                     currentPage = 1;
+                    currentPart = 1;
                     _findUpdates();
                     //update(query: queryEditingController.text);
                   });

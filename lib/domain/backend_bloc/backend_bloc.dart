@@ -23,7 +23,7 @@ class BackendBloc extends Bloc<BackendEvent, BackendState> {
     //   TrackedFilmRepositoryModule.trackedFilmMapRepository()
     //       .addFilm(film: data[i]);
     // }
-    GeneralFilmRepositoryModule.generalFilmRepository().getFilms();
+    await GeneralFilmRepositoryModule.generalFilmRepository().getFilms();
     print("END LOADING");
     emit(state.copyWith(isLoading: false));
   }

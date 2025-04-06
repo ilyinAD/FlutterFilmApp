@@ -1,4 +1,4 @@
-package domain
+package usermodel
 
 type ResponseUserModel struct {
 	ID       int    `json:"id"`

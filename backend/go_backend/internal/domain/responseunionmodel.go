@@ -1,6 +1,6 @@
 package domain
 
-type ResponseFilmModel struct {
+type ResponseUnionModel struct {
 	UserID          int      `json:"user_id"`
 	ID              int      `json:"id"`
 	Picture         string   `json:"picture"`
@@ -11,4 +11,6 @@ type ResponseFilmModel struct {
 	UserDescription string   `json:"user_description"`
 	UserRating      *float64 `json:"user_rating"`
 	FilmURL         string   `json:"film_url"`
+	AddedAt         string   `json:"added_at"`
+	ViewedAt        string   `json:"viewed_at"`
 }

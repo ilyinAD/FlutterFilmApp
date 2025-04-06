@@ -7,7 +7,7 @@ type ErrNoUser struct {
 }
 
 func (e ErrNoUser) Error() string {
-	return fmt.Sprintf("user not found: %s", e.Msg)
+	return fmt.Sprintf("usermodel not found: %s", e.Msg)
 }
 
 type ErrWrongPass struct {
@@ -15,7 +15,7 @@ type ErrWrongPass struct {
 }
 
 func (e ErrWrongPass) Error() string {
-	return fmt.Sprintf("Wrong password for user: %s", e.Msg)
+	return fmt.Sprintf("Wrong password for usermodel: %s", e.Msg)
 }
 
 type ErrWrongPassOrNoUser struct {

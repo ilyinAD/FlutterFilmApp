@@ -13,6 +13,8 @@ class MainSeriesInfo extends StatefulWidget {
   String? userDescription;
   double? userRating;
   String? filmURL;
+  String addedAt;
+  String viewedAt;
   //FilmCardModel film;
 
   MainSeriesInfo.fromFilmCardModel({super.key, required FilmCardModel result})
@@ -23,6 +25,8 @@ class MainSeriesInfo extends StatefulWidget {
         //film = result,
         userDescription = result.userDescription,
         userRating = result.userRating,
+        addedAt = result.addedAt,
+        viewedAt = result.viewedAt,
         filmURL = result.filmURL;
 
   @override
@@ -222,6 +226,38 @@ class _MainSeriesInfoState extends State<MainSeriesInfo> {
               ],
             ),
           ),
+          widget.addedAt == ""
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: Row(
+                    children: [
+                      Icon(Icons.date_range, color: Colors.teal),
+                      SizedBox(width: 8),
+                      Text(
+                        "Start watching: ${widget.addedAt == "" ? "-.-" : widget.addedAt}",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+          widget.viewedAt == ""
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
+                  child: Row(
+                    children: [
+                      Icon(Icons.date_range, color: Colors.teal),
+                      SizedBox(width: 8),
+                      Text(
+                        "End watching:   ${widget.viewedAt == "" ? "-.-" : widget.viewedAt}",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
             child: Row(

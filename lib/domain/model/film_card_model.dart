@@ -9,6 +9,8 @@ class FilmCardModel {
   final double? userRating;
   final String? filmURL;
   final List<String>? genres;
+  String addedAt;
+  String viewedAt;
   int status;
   int id;
   FilmCardModel(
@@ -21,7 +23,9 @@ class FilmCardModel {
       this.userDescription,
       this.userRating,
       this.filmURL,
-      this.genres});
+      this.genres,
+      this.viewedAt = "",
+      this.addedAt = ""});
 
   Map<String, dynamic> toJson() {
     return {
@@ -34,6 +38,8 @@ class FilmCardModel {
       'user_description': userDescription,
       'user_rating': userRating,
       'film_url': filmURL,
+      'added_at': addedAt,
+      'viewed_at': viewedAt,
     };
   }
 
@@ -48,6 +54,8 @@ class FilmCardModel {
         status: json['status'],
         userDescription: json['user_description'],
         userRating: json['user_rating']?.toDouble(),
+        addedAt: json['added_at'],
+        viewedAt: json['viewed_at'],
         filmURL: json['film_url']);
   }
 }

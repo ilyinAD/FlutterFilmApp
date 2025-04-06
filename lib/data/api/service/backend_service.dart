@@ -72,13 +72,14 @@ class BackendManager {
     }
   }
 
-  void addFilm(FilmCardModel film) async {
+  Future<void> addFilm(FilmCardModel film) async {
+    print("OK");
     final prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
     if (id == null) {
       throw Exception("not id in sharepref");
     }
-
+    print("OK");
     final data = film.toJson();
     data["user_id"] = id;
 
@@ -94,16 +95,19 @@ class BackendManager {
 
     try {
       final result = await dio.post(addFilmUrl, data: data);
+      print("result status code: ${result.statusCode}");
       if (result.statusCode == 200) {
         return;
       }
+      print("ok");
+      throw Exception("bad status code");
     } catch (e) {
       logger.e(e.toString());
       rethrow;
     }
   }
 
-  void deleteFilm(int id) async {
+  Future<void> deleteFilm(int id) async {
     final prefs = await SharedPreferences.getInstance();
 
     final data = {
@@ -116,6 +120,7 @@ class BackendManager {
       if (result.statusCode == 200) {
         return;
       }
+      throw Exception("bad status code");
     } catch (e) {
       logger.e(e.toString());
       rethrow;

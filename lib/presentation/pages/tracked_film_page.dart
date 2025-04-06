@@ -4,6 +4,7 @@ import 'package:chck_smth_in_flutter/presentation/widgets/add_series_in_tracked_
 import 'package:chck_smth_in_flutter/presentation/widgets/delete_series_from_tracked_button.dart';
 import 'package:chck_smth_in_flutter/presentation/widgets/film_info_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class TrackedFilmWidget extends StatefulWidget {
   final int id;
@@ -15,6 +16,7 @@ class TrackedFilmWidget extends StatefulWidget {
 
 class _TrackedFilmWidgetState extends State<TrackedFilmWidget> {
   late FilmCardModel film;
+  Logger logger = Logger();
   //bool isLoading = true;
   void doUpdate() async {
     //isLoading = true;
@@ -22,6 +24,10 @@ class _TrackedFilmWidgetState extends State<TrackedFilmWidget> {
     //     .getFilm(id: widget.id);
 
     setState(() {
+      logger.i("tracked film widget: setstate");
+      logger.i(TrackedFilmRepositoryModule.trackedFilmMapRepository()
+          .films[widget.id]!
+          .userRating);
       film = TrackedFilmRepositoryModule.trackedFilmMapRepository()
           .films[widget.id]!;
     });

@@ -3,6 +3,7 @@ import 'package:chck_smth_in_flutter/internal/dependencies/general_film_reposito
 import 'package:chck_smth_in_flutter/internal/dependencies/tracked_film_repository_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../constants/constants.dart';
 
 class FilmCard extends StatefulWidget {
@@ -14,6 +15,8 @@ class FilmCard extends StatefulWidget {
   final double? userRating;
   final int status;
   final String? filmURL;
+  String addedAt;
+  String viewedAt;
   //final FilmCardModel film;
   final int id;
   //FilmCard({super.key});
@@ -27,6 +30,8 @@ class FilmCard extends StatefulWidget {
         userRating = result.userRating,
         userDescription = result.userDescription,
         filmURL = result.filmURL,
+        addedAt = result.addedAt,
+        viewedAt = result.viewedAt,
         status = result.status;
 
   @override
@@ -41,6 +46,8 @@ class _FilmCardState extends State<FilmCard> {
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
+  TextEditingController addedAtEditingController = TextEditingController();
+  TextEditingController viewedAtEditingController = TextEditingController();
   final List<String> statusOptions = [
     'Viewed',
     'In process',
@@ -67,12 +74,82 @@ class _FilmCardState extends State<FilmCard> {
       descriptionEditingController.text = widget.userDescription ?? "";
       ratingEditingController.text =
           widget.userRating != null ? widget.userRating!.toString() : "";
+      viewedAtEditingController.text = widget.viewedAt.toString();
+      addedAtEditingController.text = widget.addedAt.toString();
     }
 
     selectedStatus = widget.status == untracked
         ? statusOptions[0]
         : statusOptions[widget.status];
   }
+
+  void changeDateControllerText() {
+    if (statusMap[selectedStatus] == 0) {
+      viewedAtEditingController.text = widget.viewedAt.toString();
+      addedAtEditingController.text = widget.addedAt.toString();
+    } else if (statusMap[selectedStatus] == 1) {
+      viewedAtEditingController.text = "";
+      addedAtEditingController.text = widget.addedAt.toString();
+    } else {
+      viewedAtEditingController.text = "";
+      addedAtEditingController.text = "";
+    }
+  }
+
+  @override
+  void dispose() {
+    nameEditingController.dispose();
+    ratingEditingController.dispose();
+    descriptionEditingController.dispose();
+    addedAtEditingController.dispose();
+    viewedAtEditingController.dispose();
+    super.dispose();
+  }
+
+  String? _errorText1;
+  String? _errorText2;
+
+  final _dateFormat = DateFormat('dd.MM.yyyy');
+
+  bool _isValidDate(String input) {
+    try {
+      final parsedDate = _dateFormat.parseStrict(input);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Widget _buildDateField(
+  //   TextEditingController controller,
+  //   String label,
+  //   String? errorText,
+  //   int fieldIndex,
+  // ) {
+  //   return TextField(
+  //     controller: controller,
+  //     keyboardType: TextInputType.datetime,
+  //     decoration: InputDecoration(
+  //       labelText: label,
+  //       hintText: 'dd.mm.yyyy',
+  //       border: OutlineInputBorder(),
+  //       suffixIcon: Icon(Icons.calendar_today),
+  //       errorText: errorText,
+  //     ),
+  //     onChanged: (value) {
+  //       setState(() {
+  //         final isValid = _isValidDate(value);
+  //         if (fieldIndex == 1) {
+  //           _errorText1 =
+  //               isValid || value.isEmpty ? null : 'Invalid date format';
+  //         } else if (fieldIndex == 2) {
+  //           _errorText2 =
+  //               isValid || value.isEmpty ? null : 'Invalid date format';
+  //         }
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +218,7 @@ class _FilmCardState extends State<FilmCard> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedStatus = newValue;
+                            changeDateControllerText();
                           });
                         },
                       ),
@@ -206,15 +284,59 @@ class _FilmCardState extends State<FilmCard> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 0, 4),
+            child: TextField(
+              controller: addedAtEditingController,
+              keyboardType: TextInputType.datetime,
+              decoration: InputDecoration(
+                labelText: "Start watching series date",
+                hintText: 'dd.mm.yyyy',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.calendar_today),
+                errorText: _errorText1,
+              ),
+              enabled: statusMap[selectedStatus] != wish,
+              onChanged: (value) {
+                setState(() {
+                  final isValid = _isValidDate(value);
+                  _errorText1 =
+                      isValid || value.isEmpty ? null : 'Invalid date format';
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 0, 4),
+            child: TextField(
+              controller: viewedAtEditingController,
+              keyboardType: TextInputType.datetime,
+              decoration: InputDecoration(
+                labelText: "End watching series date",
+                hintText: 'dd.mm.yyyy',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.calendar_today),
+                errorText: _errorText2,
+              ),
+              enabled: statusMap[selectedStatus] == viewed,
+              onChanged: (value) {
+                setState(() {
+                  final isValid = _isValidDate(value);
+                  _errorText2 =
+                      isValid || value.isEmpty ? null : 'Invalid date format';
+                });
+              },
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+        onPressed: () async {
           if (nameEditingController.text == "") {
             return;
           }
 
-          setState(() {
+          setState(() async {
             late double? userRating;
             if (ratingEditingController.text == "") {
               userRating = null;
@@ -234,18 +356,22 @@ class _FilmCardState extends State<FilmCard> {
             }
 
             FilmCardModel film = FilmCardModel(
-                name: nameEditingController.text,
-                userRating: userRating,
-                rating: widget.rating,
-                id: widget.id,
-                description: widget.description,
-                userDescription: descriptionEditingController.text,
-                status: statusMap[selectedStatus] ?? 0,
-                picture: picture,
-                filmURL: widget.filmURL);
+              name: nameEditingController.text,
+              userRating: userRating,
+              rating: widget.rating,
+              id: widget.id,
+              description: widget.description,
+              userDescription: descriptionEditingController.text,
+              status: statusMap[selectedStatus] ?? 0,
+              picture: picture,
+              filmURL: widget.filmURL,
+              viewedAt: viewedAtEditingController.text,
+              addedAt: addedAtEditingController.text,
+            );
             // TrackedFilmRepositoryModule.trackedFilmMapRepository()
             //     .addFilm(film: film);
-            GeneralFilmRepositoryModule.generalFilmRepository().addFilm(film);
+            await GeneralFilmRepositoryModule.generalFilmRepository()
+                .addFilm(film);
             Navigator.pop(context, film);
           });
         },

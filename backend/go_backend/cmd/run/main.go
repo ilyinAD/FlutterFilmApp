@@ -20,6 +20,7 @@ func main() {
 		fx.Provide(usecases.NewFilmUseCases),
 		fx.Provide(repository.NewUserRepository),
 		fx.Provide(repository.NewFilmRepository),
+		fx.Provide(repository.NewUserFilmInfoRepository),
 		fx.Provide(infrastructure.InitDB),
 		fx.Invoke(infrastructure.StartServer),
 	)

@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"errors"
-	"go_backend/internal/domain"
+	"go_backend/internal/domain/usermodel"
 	"go_backend/internal/infrastructure/myerrors"
 	"go_backend/internal/infrastructure/usecases"
 	"net/http"
@@ -20,8 +20,8 @@ func NewUserHandler(userUseCase *usecases.UserUseCase) *UserHandler {
 
 func (uh *UserHandler) RegisterUser(c *gin.Context) {
 	var (
-		user         domain.RequestUserModel
-		returnedUser *domain.ResponseUserModel
+		user         usermodel.RequestUserModel
+		returnedUser *usermodel.ResponseUserModel
 	)
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -47,8 +47,8 @@ func (uh *UserHandler) RegisterUser(c *gin.Context) {
 
 func (uh *UserHandler) LoginUser(c *gin.Context) {
 	var (
-		user         domain.RequestUserModel
-		returnedUser *domain.ResponseUserModel
+		user         usermodel.RequestUserModel
+		returnedUser *usermodel.ResponseUserModel
 	)
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -76,8 +76,8 @@ func (uh *UserHandler) LoginUser(c *gin.Context) {
 
 func (uh *UserHandler) GetUser(c *gin.Context) {
 	var (
-		user         domain.RequestGetUserModel
-		returnedUser *domain.ResponseUserModel
+		user         usermodel.RequestGetUserModel
+		returnedUser *usermodel.ResponseUserModel
 	)
 
 	if err := c.ShouldBindJSON(&user); err != nil {

@@ -341,6 +341,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.2"
   io:
     dependency: transitive
     description:
@@ -714,6 +722,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  string_similarity:
+    dependency: "direct main"
+    description:
+      name: string_similarity
+      sha256: b4b73ec3af3e4203504b136dfbcdbca29edea4eb373684811b76ded9f40a54b9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   term_glyph:
     dependency: transitive
     description:

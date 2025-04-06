@@ -2,9 +2,11 @@ import 'package:chck_smth_in_flutter/domain/model/film_card_model.dart';
 import 'package:chck_smth_in_flutter/domain/repository/tracked_film_map_repository.dart';
 import 'package:chck_smth_in_flutter/presentation/widgets/main_navigation_panel_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../internal/dependencies/tracked_film_repository_module.dart';
+import '../../utils/utils.dart';
 import '../widgets/film_button.dart';
 import 'add_card_page.dart';
 
@@ -58,16 +60,36 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
 
   void updateGroupedFilms({required String query}) {
     final films = TrackedFilmRepositoryModule.trackedFilmMapRepository().films;
-    films.forEach((key, value) {
-      if (value.status != 3 &&
-          value.name.toLowerCase().contains(query.toLowerCase(), 0)) {
+    for (var entry in films.entries) {
+      final value = entry.value;
+      if (value.status != 3 && isMovieMatch(value.name, query)) {
+        final fromDate = fromDateEditingController.text;
+        if (fromDate != "" && value.addedAt != "") {
+          if (_dateFormat
+              .parseStrict(value.addedAt)
+              .isBefore(_dateFormat.parseStrict(fromDate))) {
+            continue;
+          }
+        }
+
+        final toDate = toDateEditingController.text;
+        if (toDate != "" && value.viewedAt != "") {
+          if (_dateFormat
+              .parseStrict(value.viewedAt)
+              .isAfter(_dateFormat.parseStrict(toDate))) {
+            continue;
+          }
+        }
         _groupedFilms[value.status]!.add(value);
       }
-    });
+    }
     sortGroupedFilms(sortedFilter: sortedFilter);
   }
 
   void update({String query = ""}) {
+    if (_errorText2 != null || _errorText1 != null) {
+      return;
+    }
     setState(() {
       clearGroupedFilms();
       //print("Update TrackedListOfFilms");
@@ -94,87 +116,145 @@ class _TrackedListOfFilmsState extends State<TrackedListOfFilms>
 
   final FocusNode _focusNode = FocusNode();
 
+  TextEditingController fromDateEditingController = TextEditingController();
+  TextEditingController toDateEditingController = TextEditingController();
+
+  String? _errorText1;
+  String? _errorText2;
+
+  final _dateFormat = DateFormat('dd.MM.yyyy');
+  bool _isValidDate(String input) {
+    try {
+      final parsedDate = _dateFormat.parseStrict(input);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool _isDropdownVisible = false;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        // appBar: AppBar(
-        //   automaticallyImplyLeading: false,
-        //   title: Text("Marked series"),
-        //   actions: [
-        //     IconButton(
-        //       icon: const Icon(Icons.add),
-        //       onPressed: () async {
-        //         final result = await Navigator.push(
-        //           context,
-        //           MaterialPageRoute(
-        //             builder: (context) => FilmCard.fromFilmCardModel(
-        //               result: FilmCardModel(
-        //                   name: "",
-        //                   rating: null,
-        //                   id: -TrackedFilmRepositoryModule
-        //                           .trackedFilmMapRepository()
-        //                       .films
-        //                       .length),
-        //             ),
-        //           ),
-        //         );
-        //         update(query: queryEditingController.text);
-        //       },
-        //     ),
-        //   ],
-        // ),
         body: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: queryEditingController,
-                decoration: InputDecoration(
-                  hintText: 'Search on marked series...',
-                  hintStyle: TextStyle(color: Colors.grey.shade400),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                  suffixIcon:
-                      // IconButton(
-                      //   icon: Icon(Icons.clear, color: Colors.grey.shade600),
-                      //   onPressed: () {
-                      //     queryEditingController.text = "";
-                      //     update();
-                      //   },
-                      // ),
-                      IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FilmCard.fromFilmCardModel(
-                            result: FilmCardModel(
-                                name: "",
-                                rating: null,
-                                id: -TrackedFilmRepositoryModule
-                                        .trackedFilmMapRepository()
-                                    .films
-                                    .length),
-                          ),
-                        ),
-                      );
-                      update(query: queryEditingController.text);
+              child: Stack(
+                children: [
+                  TextField(
+                    controller: queryEditingController,
+                    decoration: InputDecoration(
+                      hintText: 'Search on marked series...',
+                      hintStyle: TextStyle(color: Colors.grey.shade400),
+                      prefixIcon:
+                          Icon(Icons.search, color: Colors.grey.shade600),
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FilmCard.fromFilmCardModel(
+                                result: FilmCardModel(
+                                    name: "",
+                                    rating: null,
+                                    id: -TrackedFilmRepositoryModule
+                                            .trackedFilmMapRepository()
+                                        .films
+                                        .length),
+                              ),
+                            ),
+                          );
+                          update(query: queryEditingController.text);
+                        },
+                      ),
+                    ),
+                    onChanged: (value) {
+                      update(query: value);
+                      //print("Search query: $value");
                     },
                   ),
-                ),
-                onChanged: (value) {
-                  update(query: value);
-                  //print("Search query: $value");
-                },
+                ],
               ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 4),
+                    child: TextField(
+                      controller: fromDateEditingController,
+                      keyboardType: TextInputType.datetime,
+                      decoration: InputDecoration(
+                        labelText: "From",
+                        hintText: 'dd.mm.yyyy',
+                        border: OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                fromDateEditingController.text = "";
+                                _errorText1 = null;
+                                update(query: queryEditingController.text);
+                              });
+                            },
+                            icon: const Icon(Icons.clear)),
+                        errorText: _errorText1,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          final isValid = _isValidDate(value);
+                          _errorText1 = isValid || value.isEmpty
+                              ? null
+                              : 'Invalid date format';
+                          update(query: queryEditingController.text);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 4),
+                    child: TextField(
+                      controller: toDateEditingController,
+                      keyboardType: TextInputType.datetime,
+                      decoration: InputDecoration(
+                        labelText: "To",
+                        hintText: 'dd.mm.yyyy',
+                        border: OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                toDateEditingController.text = "";
+                                _errorText2 = null;
+                                update(query: queryEditingController.text);
+                              });
+                            },
+                            icon: const Icon(Icons.clear)),
+                        errorText: _errorText2,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          final isValid = _isValidDate(value);
+                          _errorText2 = isValid || value.isEmpty
+                              ? null
+                              : 'Invalid date format';
+                          update(query: queryEditingController.text);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),

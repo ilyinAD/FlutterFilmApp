@@ -13,10 +13,10 @@ class DeleteSeriesButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: RawMaterialButton(
-          onPressed: () {
+          onPressed: () async {
             // TrackedFilmRepositoryModule.trackedFilmMapRepository()
             //     .deleteFilm(film: film);
-            GeneralFilmRepositoryModule.generalFilmRepository()
+            await GeneralFilmRepositoryModule.generalFilmRepository()
                 .deleteFilm(film);
             Navigator.pop(context, film);
           },

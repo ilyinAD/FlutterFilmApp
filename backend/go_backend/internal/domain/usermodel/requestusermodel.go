@@ -1,4 +1,4 @@
-package domain
+package usermodel
 
 type RequestUserModel struct {
 	Username string `json:"username"`
