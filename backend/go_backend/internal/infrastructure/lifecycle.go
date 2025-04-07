@@ -52,7 +52,7 @@ func StartServer(r *gin.Engine) {
 		}
 	}(db)
 
-	err = r.Run(":8080")
+	err = r.Run("192.168.1.55:3000")
 	if err != nil {
 		fmt.Println("Error running server: ", err)
 	}

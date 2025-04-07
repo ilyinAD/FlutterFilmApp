@@ -10,13 +10,14 @@ class BackendManager {
 
   final logger = Logger();
   static const host = "192.168.1.55";
-  final String registerUrl = 'http://$host:8080/register';
-  final String loginUrl = 'http://$host:8080/login';
-  final String addFilmUrl = 'http://$host:8080/addFilm';
-  final String delFilmUrl = 'http://$host:8080/deleteFilm';
-  final String getFilmUrl = 'http://$host:8080/getFilm';
-  final String getFilmsUrl = 'http://$host:8080/getFilms';
-  final String getUser = 'http://$host:8080/getUser';
+  static const port = "3000";
+  final String registerUrl = 'http://$host:$port/register';
+  final String loginUrl = 'http://$host:$port/login';
+  final String addFilmUrl = 'http://$host:$port/addFilm';
+  final String delFilmUrl = 'http://$host:$port/deleteFilm';
+  final String getFilmUrl = 'http://$host:$port/getFilm';
+  final String getFilmsUrl = 'http://$host:$port/getFilms';
+  final String getUser = 'http://$host:$port/getUser';
   Future<UserModel> register(
       String username, String password, String email) async {
     final data = {
@@ -153,7 +154,7 @@ class BackendManager {
     };
 
     try {
-      print("Start query");
+      logger.i("start query");
       final response = await dio.get(getFilmsUrl, data: data);
       if (response.statusCode == 200) {
         List<FilmCardModel> results = [];
